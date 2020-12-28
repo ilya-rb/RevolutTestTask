@@ -1,0 +1,13 @@
+apply plugin: 'io.gitlab.arturbosch.detekt'
+
+detekt {
+    failFast = true
+    buildUponDefaultConfig = true
+    config = files("$rootDir/code-quality-tools/detekt_config.yml")
+    reports {
+        html {
+            enabled = true
+            destination = file("$rootDir/reports/detekt/${project.name}_report.html")
+        }
+    }
+}

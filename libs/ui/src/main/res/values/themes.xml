@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Platform.Theme.RevolutTest" parent="Theme.MaterialComponents.DayNight.NoActionBar" />
+
+    <style name="Base.Theme.RevolutTest" parent="Platform.Theme.RevolutTest">
+
+        <!-- Typography styles -->
+        <item name="textAppearanceHeadline1">@style/TextAppearance.RevolutTest.Headline1</item>
+        <item name="textAppearanceHeadline2">@style/TextAppearance.RevolutTest.Headline2</item>
+        <item name="textAppearanceHeadline3">@style/TextAppearance.RevolutTest.Headline3</item>
+        <item name="textAppearanceHeadline4">@style/TextAppearance.RevolutTest.Headline4</item>
+        <item name="textAppearanceHeadline5">@style/TextAppearance.RevolutTest.Headline5</item>
+        <item name="textAppearanceHeadline6">@style/TextAppearance.RevolutTest.Headline6</item>
+        <item name="textAppearanceSubtitle1">@style/TextAppearance.RevolutTest.Subtitle1</item>
+        <item name="textAppearanceSubtitle2">@style/TextAppearance.RevolutTest.Subtitle2</item>
+        <item name="textAppearanceBody1">@style/TextAppearance.RevolutTest.Body1</item>
+        <item name="textAppearanceBody2">@style/TextAppearance.RevolutTest.Body2</item>
+        <item name="textAppearanceCaption">@style/TextAppearance.RevolutTest.Caption</item>
+        <item name="textAppearanceButton">@style/TextAppearance.RevolutTest.Button</item>
+        <item name="textAppearanceOverline">@style/TextAppearance.RevolutTest.Overline</item>
+
+        <!-- Shapes -->
+        <item name="shapeAppearanceSmallComponent">
+            @style/ShapeAppearance.RevolutTest.SmallComponent
+        </item>
+        <item name="shapeAppearanceLargeComponent">
+            @style/ShapeAppearance.RevolutTest.SmallComponent
+        </item>
+        <item name="shapeAppearanceMediumComponent">
+            @style/ShapeAppearance.RevolutTest.SmallComponent
+        </item>
+
+    </style>
+
+    <style name="Theme.RevolutTest" parent="Base.Theme.RevolutTest">
+
+        <item name="colorPrimary">@color/revoluttest_white</item>
+        <item name="colorOnPrimary">@color/revoluttest_black</item>
+        <item name="colorPrimaryVariant">@color/revoluttest_blue_800</item>
+        <item name="colorSecondary">@color/revoluttest_deep_orange_500</item>
+        <item name="colorOnSecondary">@color/revoluttest_white</item>
+        <item name="colorSecondaryVariant">@color/revoluttest_deep_orange_800</item>
+        <item name="colorSurface">@color/revoluttest_white</item>
+        <item name="colorOnSurface">@color/revoluttest_black</item>
+        <item name="colorError">@color/revoluttest_red</item>
+        <item name="colorOnError">@color/revoluttest_white</item>
+        <item name="colorOnBackground">@color/revoluttest_black</item>
+
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentNavigation">true</item>
+
+    </style>
+
+</resources>
