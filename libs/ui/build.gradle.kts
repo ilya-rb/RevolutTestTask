@@ -6,8 +6,10 @@ plugins {
 
 dependencies {
     kapt(Deps.Dagger.compiler)
-
     implementation(Deps.Dagger.core)
+
+    implementation(Deps.Glide.core)
+
     implementation(Deps.Kotlin.std)
     implementation(Deps.RxJava.kotlin)
 

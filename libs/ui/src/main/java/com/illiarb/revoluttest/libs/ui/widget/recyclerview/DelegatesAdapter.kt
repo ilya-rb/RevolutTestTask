@@ -7,8 +7,9 @@ import com.hannesdorfmann.adapterdelegates4.AsyncListDifferDelegationAdapter
 
 open class DelegatesAdapter<T>(
     vararg delegates: AdapterDelegate<List<T>>,
-    itemDiff: (old: T, new: T) -> Boolean
-) : AsyncListDifferDelegationAdapter<T>(simpleDiffUtilCallback(itemDiff)) {
+    itemDiff: (old: T, new: T) -> Boolean,
+    changePayload: (old: T, new: T) -> Any? = { _, _ -> Any() }
+) : AsyncListDifferDelegationAdapter<T>(simpleDiffUtilCallback(itemDiff, changePayload)) {
 
     init {
         delegates.forEach {

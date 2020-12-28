@@ -38,6 +38,8 @@ object Deps {
     }
 
     object Kotlin {
+        @Suppress("MemberVisibilityCanBePrivate")
+        // false positive
         const val kotlinVersion = "1.3.72"
 
         const val gradlePlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
@@ -78,6 +80,13 @@ object Deps {
             const val emoji = "androidx.emoji:emoji:1.2.0-alpha01"
             const val constraintLayout = "androidx.constraintlayout:constraintlayout:2.1.0-alpha2"
         }
+    }
+
+    object Glide {
+        private const val glideVersion = "4.11.0"
+
+        const val core = "com.github.bumptech.glide:glide:$glideVersion"
+        const val compiler = "com.github.bumptech.glide:compiler:$glideVersion"
     }
 
     object RxJava {

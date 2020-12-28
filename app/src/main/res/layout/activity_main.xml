@@ -21,26 +21,10 @@
         tools:text="@tools:sample/lorem"
         tools:visibility="visible" />
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/main_app_bar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/main_toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:visibility="gone"
-            tools:title="Rates"
-            tools:visibility="visible" />
-
-    </com.google.android.material.appbar.AppBarLayout>
-
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragment_container"
         android:name="com.illiarb.revoluttest.modules.home.HomeFragment"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_height="match_parent" />
 
 </LinearLayout>

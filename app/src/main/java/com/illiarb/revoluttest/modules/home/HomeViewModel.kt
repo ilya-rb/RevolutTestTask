@@ -60,8 +60,15 @@ class HomeViewModel @Inject constructor(
             ratesListInternal.toFlowable(/* strategy */ BackpressureStrategy.LATEST),
             _amountChangedConsumer.toFlowable(/* strategy */ BackpressureStrategy.LATEST),
             BiFunction<LatestRates, Float, List<UiRate>> { rates, newAmount ->
-                listOf(Rate(rates.baseCurrency, newAmount)).plus(rates.rates)
-                    .asUiRateList(newAmount, baseCurrency ?: rates.baseCurrency)
+                Timber.d("New amount entered: $newAmount")
+                listOf(
+                    Rate(
+                        imageUrl = rates.baseRate.imageUrl,
+                        code = rates.baseRate.code,
+                        rate = newAmount
+                    )
+                ).plus(rates.rates)
+                    .asUiRateList(newAmount, baseCurrency ?: rates.baseRate.code)
                     .sortedByDescending { it.isBaseRate }
             }
         ).subscribe(
@@ -71,14 +78,15 @@ class HomeViewModel @Inject constructor(
     }
 
     fun onItemClick(item: UiRate) {
-        subscribeToRateUpdates(item.body, item.rate)
+        subscribeToRateUpdates(item.code, item.rate)
     }
 
     private fun List<Rate>.asUiRateList(baseRate: Float, baseCurrency: String): List<UiRate> {
         return map { rate ->
             val isBase = rate.code == baseCurrency
             UiRate(
-                body = rate.code,
+                imageUrl = rate.imageUrl,
+                code = rate.code,
                 caption = rate.code,
                 isBaseRate = isBase,
                 rate = if (isBase) {
@@ -96,7 +104,8 @@ class HomeViewModel @Inject constructor(
     }
 
     data class UiRate(
-        val body: String,
+        val imageUrl: String,
+        val code: String,
         val caption: String,
         val rate: String,
         val isBaseRate: Boolean,

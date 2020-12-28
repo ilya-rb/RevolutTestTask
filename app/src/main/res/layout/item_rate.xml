@@ -11,14 +11,14 @@
 
     <ImageView
         android:id="@+id/item_rate_image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_marginStart="@dimen/spacing_normal"
         app:layout_constraintBottom_toBottomOf="@id/item_rate_caption"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="@id/item_rate_body"
-        tools:layout_height="40dp"
-        tools:layout_width="40dp"
+        tools:layout_height="24dp"
+        tools:layout_width="24dp"
         tools:src="@mipmap/ic_launcher_round" />
 
     <TextView

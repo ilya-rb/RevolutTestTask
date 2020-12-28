@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.hannesdorfmann.adapterdelegates4.AdapterDelegate
 import com.illiarb.revoluttest.databinding.ItemRateBinding
 import com.illiarb.revoluttest.libs.ui.ext.addTo
+import com.illiarb.revoluttest.libs.ui.image.ImageLoader
 import com.illiarb.revoluttest.modules.home.HomeViewModel.UiRate
 import com.jakewharton.rxbinding4.widget.textChanges
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -33,8 +34,8 @@ class ItemRateDelegate(
     ) {
         val viewHolder = holder as ViewHolder
         viewHolder.bind(
-            items[position],
-            null//if (payloads.isNotEmpty()) payloads.first() as Bundle else null
+            item = items[position],
+            payload = if (payloads.isNotEmpty()) payloads.first() as Bundle else null
         )
     }
 
@@ -53,38 +54,47 @@ class ItemRateDelegate(
 
         fun onDetachedFromWindow() = textChangesDisposable.clear()
 
-        fun bind(item: UiRate, bundle: Bundle?) {
-            binding.itemRateCaption.text = item.caption
-            binding.itemRateValue.isEnabled = item.isBaseRate
-            binding.itemRateBody.text = item.body
-
+        fun bind(item: UiRate, payload: Bundle?) {
             textChangesDisposable.clear()
 
-            if (!binding.itemRateValue.hasFocus()) {
-                binding.itemRateValue.setText(item.rate)
+            if (payload == null || payload.getBoolean(PAYLOAD_NEW_IMAGE)) {
+                ImageLoader.loadImage(binding.itemRateImage, item.imageUrl)
             }
 
-            if (item.isBaseRate) {
+            if (payload == null || payload.getBoolean(PAYLOAD_NEW_RATE)) {
                 if (!binding.itemRateValue.isFocused) {
-                    binding.itemRateValue.requestFocus()
+                    binding.itemRateValue.setText(item.rate)
                 }
-            } else {
-                binding.itemRateValue.clearFocus()
             }
 
-            binding.itemRateValue.textChanges()
-                .skipInitialValue()
-                .map { it?.toString()?.toFloatOrNull() ?: 0f }
-                .subscribe(textChangesConsumer, Consumer { Timber.e(it) })
-                .addTo(textChangesDisposable)
+            binding.itemRateCaption.text = item.caption
+            binding.itemRateBody.text = item.code
 
             if (item.isBaseRate) {
                 binding.itemRateContainer.setOnClickListener(null)
+                binding.itemRateValue.onFocusChangeListener = null
+
+                binding.itemRateValue.textChanges()
+                    .map { it?.toString()?.toFloatOrNull() ?: 0f }
+                    .subscribe(textChangesConsumer, Consumer { Timber.e(it) })
+                    .addTo(textChangesDisposable)
             } else {
                 binding.itemRateContainer.setOnClickListener {
+                    binding.itemRateValue.requestFocus()
                     onItemClick(item)
+                }
+
+                binding.itemRateValue.setOnFocusChangeListener { _, hasFocus ->
+                    if (hasFocus) {
+                        onItemClick(item)
+                    }
                 }
             }
         }
+    }
+
+    companion object {
+        const val PAYLOAD_NEW_IMAGE = "image"
+        const val PAYLOAD_NEW_RATE = "rate"
     }
 }

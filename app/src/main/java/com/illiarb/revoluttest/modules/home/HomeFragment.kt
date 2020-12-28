@@ -14,14 +14,14 @@ import com.illiarb.revoluttest.di.Injectable
 import com.illiarb.revoluttest.libs.tools.SchedulerProvider
 import com.illiarb.revoluttest.libs.ui.base.BaseFragment
 import com.illiarb.revoluttest.libs.ui.ext.addNavigationBarBottomPadding
-import com.illiarb.revoluttest.libs.ui.toolbar.HasToolbar
+import com.illiarb.revoluttest.libs.ui.ext.addStatusBarTopPadding
 import com.illiarb.revoluttest.libs.ui.widget.recyclerview.DelegatesAdapter
 import com.illiarb.revoluttest.modules.home.HomeViewModel.UiRate
 import com.illiarb.revoluttest.modules.home.di.DaggerHomeComponent
 import timber.log.Timber
 import javax.inject.Inject
 
-class HomeFragment : BaseFragment(R.layout.fragment_home), Injectable, HasToolbar {
+class HomeFragment : BaseFragment(R.layout.fragment_home), Injectable {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -31,20 +31,14 @@ class HomeFragment : BaseFragment(R.layout.fragment_home), Injectable, HasToolba
 
     private val viewBinding: FragmentHomeBinding by viewBinding(FragmentHomeBinding::bind)
     private val viewModel by viewModels<HomeViewModel>(factoryProducer = { viewModelFactory })
+
     private val delegatesAdapter by lazy(LazyThreadSafetyMode.NONE) {
         object : DelegatesAdapter<UiRate>(
-            ItemRateDelegate(
-                {
-                    viewModel.onItemClick(it)
-                    viewBinding.homeRatesList.post {
-                        viewBinding.homeRatesList.smoothScrollToPosition(0)
-                    }
-                },
-                viewModel.amountChangedConsumer
-            ),
-            itemDiff = { old, new -> old.body == new.body }
+            ItemRateDelegate({ viewModel.onItemClick(it) }, viewModel.amountChangedConsumer),
+            itemDiff = { old, new -> old.code == new.code },
+            changePayload = { old, new -> createRatesChangePayload(old, new) }
         ) {
-            override fun getItemId(position: Int): Long = items[position].body.hashCode().toLong()
+            override fun getItemId(position: Int): Long = items[position].code.hashCode().toLong()
         }
     }
 
@@ -53,6 +47,11 @@ class HomeFragment : BaseFragment(R.layout.fragment_home), Injectable, HasToolba
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        viewBinding.homeAppBar.addStatusBarTopPadding()
+        viewBinding.homeToolbar.setNavigationOnClickListener {
+            activity?.onBackPressed()
+        }
 
         viewBinding.homeRatesList.let {
             it.layoutManager = LinearLayoutManager(view.context)
@@ -72,13 +71,15 @@ class HomeFragment : BaseFragment(R.layout.fragment_home), Injectable, HasToolba
         ViewCompat.requestApplyInsets(view)
     }
 
-    override fun getToolbarOptions(): HasToolbar.ToolbarOptions {
-        return HasToolbar.ToolbarOptions(
-            isVisible = true,
-            hasCloseButton = true,
-            title = getString(R.string.home_toolbar_title)
-        ) {
-            requireActivity().onBackPressed()
+    private fun createRatesChangePayload(old: UiRate, new: UiRate): Bundle? {
+        val diffBundle = Bundle()
+        if (old.imageUrl != new.imageUrl) {
+            diffBundle.putBoolean(ItemRateDelegate.PAYLOAD_NEW_IMAGE, true)
         }
+        if (old.rate != new.rate) {
+            diffBundle.putBoolean(ItemRateDelegate.PAYLOAD_NEW_RATE, true)
+        }
+
+        return if (diffBundle.isEmpty) null else diffBundle
     }
 }
