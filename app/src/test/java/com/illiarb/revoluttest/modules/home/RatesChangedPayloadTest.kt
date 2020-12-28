@@ -1,7 +1,6 @@
 package com.illiarb.revoluttest.modules.home
 
 import com.google.common.truth.Truth.assertThat
-import com.illiarb.revoluttest.modules.home.HomeViewModel.UiRate
 import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments

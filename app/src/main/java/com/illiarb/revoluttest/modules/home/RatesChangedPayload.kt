@@ -1,7 +1,5 @@
 package com.illiarb.revoluttest.modules.home
 
-import com.illiarb.revoluttest.modules.home.HomeViewModel.UiRate
-
 data class RatesChangedPayload(
     val hasNewImage: Boolean = true,
     val hasNewRate: Boolean = true

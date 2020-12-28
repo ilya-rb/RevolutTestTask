@@ -4,7 +4,6 @@ import com.illiarb.revoluttest.common.TestLatestRatesApi
 import com.illiarb.revoluttest.common.TestSchedulerProvider
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
-import java.util.concurrent.TimeUnit
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class RevolutRatesServiceTest {
@@ -18,7 +17,7 @@ class RevolutRatesServiceTest {
         val observer = revolutRatesService.observeLatestRates(baseCurrency = null).test()
 
         repeat(times = 10) { i ->
-            testSchedulerProvider.testScheduler.advanceTimeBy(1L, TimeUnit.SECONDS)
+            testSchedulerProvider.advanceToNextRateUpdate()
             observer.assertValueAt(i) {
                 it.baseRate.code == TestLatestRatesApi.TEST_BASE_CURRENCY
             }
@@ -31,7 +30,7 @@ class RevolutRatesServiceTest {
 
         repeat(times = 10) { i ->
             observer.assertValueCount(i)
-            testSchedulerProvider.testScheduler.advanceTimeBy(1L, TimeUnit.SECONDS)
+            testSchedulerProvider.advanceToNextRateUpdate()
         }
     }
 }

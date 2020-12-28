@@ -7,7 +7,6 @@ import com.hannesdorfmann.adapterdelegates4.AdapterDelegate
 import com.illiarb.revoluttest.databinding.ItemRateBinding
 import com.illiarb.revoluttest.libs.ui.ext.addTo
 import com.illiarb.revoluttest.libs.ui.image.ImageLoader
-import com.illiarb.revoluttest.modules.home.HomeViewModel.UiRate
 import com.jakewharton.rxbinding4.widget.textChanges
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.functions.Consumer

@@ -16,7 +16,6 @@ import com.illiarb.revoluttest.libs.ui.base.BaseFragment
 import com.illiarb.revoluttest.libs.ui.ext.addNavigationBarBottomPadding
 import com.illiarb.revoluttest.libs.ui.ext.addStatusBarTopPadding
 import com.illiarb.revoluttest.libs.ui.widget.recyclerview.DelegatesAdapter
-import com.illiarb.revoluttest.modules.home.HomeViewModel.UiRate
 import com.illiarb.revoluttest.modules.home.di.DaggerHomeComponent
 import timber.log.Timber
 import javax.inject.Inject
