@@ -1,5 +1,6 @@
 plugins {
     id("com.android.application")
+    id("de.mannodermaus.android-junit5")
     kotlin("android")
     kotlin("kapt")
 }
@@ -53,4 +54,17 @@ dependencies {
 
     implementation(Deps.Misc.timber)
     implementation(Deps.Misc.viewBindingPropertyDelegate)
+
+    testImplementation(Deps.Test.AndroidX.core)
+    testImplementation(Deps.Test.AndroidX.rules)
+    testImplementation(Deps.Test.AndroidX.extJunit)
+    testImplementation(Deps.Test.JUnit5.jupiterApi)
+    testImplementation(Deps.Test.JUnit5.jupiterParams)
+    testImplementation(Deps.Test.truth)
+    testImplementation(Deps.Test.junit)
+
+    // https://github.com/mockk/mockk/issues/281
+    testImplementation(Deps.Test.mockk) { exclude(module = "objenesis") }
+    testImplementation("org.objenesis:objenesis:2.6")
+    // =========================================
 }

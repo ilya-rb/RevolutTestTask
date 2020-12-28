@@ -1,5 +1,6 @@
 package com.illiarb.revoluttest.services.revolut.internal
 
+import com.illiarb.revoluttest.libs.tools.SchedulerProvider
 import com.illiarb.revoluttest.services.revolut.RatesService
 import com.illiarb.revoluttest.services.revolut.entity.Rate
 import com.illiarb.revoluttest.services.revolut.internal.api.LatestRatesApi
@@ -10,14 +11,19 @@ import javax.inject.Inject
 
 internal class RevolutRatesService @Inject constructor(
     private val latestRatesApi: LatestRatesApi,
-    private val imageUrlCreator: ImageUrlCreator
+    private val imageUrlCreator: ImageUrlCreator,
+    private val schedulerProvider: SchedulerProvider
 ) : RatesService {
 
     override fun observeLatestRates(
         baseCurrency: String?,
         updateInterval: Long
     ): Flowable<RatesService.LatestRates> {
-        return Flowable.interval(updateInterval, TimeUnit.MILLISECONDS)
+        return Flowable.interval(
+            updateInterval,
+            TimeUnit.MILLISECONDS,
+            schedulerProvider.computation
+        )
             .flatMap { latestRatesApi.latest(baseCurrency) }
             .map {
                 RatesService.LatestRates(

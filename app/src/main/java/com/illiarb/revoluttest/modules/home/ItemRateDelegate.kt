@@ -1,6 +1,5 @@
 package com.illiarb.revoluttest.modules.home
 
-import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -35,7 +34,7 @@ class ItemRateDelegate(
         val viewHolder = holder as ViewHolder
         viewHolder.bind(
             item = items[position],
-            payload = if (payloads.isNotEmpty()) payloads.first() as Bundle else null
+            payload = if (payloads.isNotEmpty()) payloads.first() as RatesChangedPayload else null
         )
     }
 
@@ -54,14 +53,14 @@ class ItemRateDelegate(
 
         fun onDetachedFromWindow() = textChangesDisposable.clear()
 
-        fun bind(item: UiRate, payload: Bundle?) {
+        fun bind(item: UiRate, payload: RatesChangedPayload?) {
             textChangesDisposable.clear()
 
-            if (payload == null || payload.getBoolean(PAYLOAD_NEW_IMAGE)) {
+            if (payload == null || payload.hasNewImage) {
                 ImageLoader.loadImage(binding.itemRateImage, item.imageUrl)
             }
 
-            if (payload == null || payload.getBoolean(PAYLOAD_NEW_RATE)) {
+            if (payload == null || payload.hasNewRate) {
                 if (!binding.itemRateValue.isFocused) {
                     binding.itemRateValue.setText(item.rate)
                 }
@@ -91,10 +90,5 @@ class ItemRateDelegate(
                 }
             }
         }
-    }
-
-    companion object {
-        const val PAYLOAD_NEW_IMAGE = "image"
-        const val PAYLOAD_NEW_RATE = "rate"
     }
 }
