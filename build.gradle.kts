@@ -33,14 +33,12 @@ buildscript {
         classpath(Deps.GradlePlugins.versionsCheck)
         classpath(Deps.GradlePlugins.jacoco)
         classpath(Deps.GradlePlugins.junit5)
-        classpath(Deps.GradlePlugins.jetifierCheck)
     }
 }
 
 plugins {
     id("io.gitlab.arturbosch.detekt") version "1.15.0"
     id("com.github.ben-manes.versions") version "0.36.0"
-    id("com.github.plnice.canidropjetifier") version "0.5"
 }
 
 allprojects {

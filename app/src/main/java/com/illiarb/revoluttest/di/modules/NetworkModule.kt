@@ -2,8 +2,7 @@ package com.illiarb.revoluttest.di.modules
 
 import com.illiarb.revoluttest.libs.tools.SchedulerProvider
 import com.illiarb.revoluttest.network.ApiErrorMapper
-import com.illiarb.revoluttest.network.ResultCallAdapterFactory
-import com.illiarb.revoluttest.network.rx.RxErrorHandlingCallAdapterFactory
+import com.illiarb.revoluttest.network.RxCallAdapterFactory
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module
@@ -33,7 +32,7 @@ object NetworkModule {
         schedulerProvider: SchedulerProvider,
         errorCreator: ApiErrorMapper
     ): CallAdapter.Factory {
-        return RxErrorHandlingCallAdapterFactory(schedulerProvider, errorCreator)
+        return RxCallAdapterFactory(schedulerProvider, errorCreator)
     }
 
     @Provides

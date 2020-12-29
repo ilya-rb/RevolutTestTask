@@ -23,7 +23,6 @@ object Deps {
         const val jacoco = "org.jacoco:org.jacoco.core:0.8.6"
         const val versionsCheck = "com.github.ben-manes:gradle-versions-plugin:0.33.0"
         const val junit5 = "de.mannodermaus.gradle.plugins:android-junit5:1.7.0.0"
-        const val jetifierCheck = "com.github.plnice:canidropjetifier:0.5"
     }
 
     object Modules {
@@ -40,11 +39,10 @@ object Deps {
     object Kotlin {
         @Suppress("MemberVisibilityCanBePrivate")
         // false positive
-        const val kotlinVersion = "1.3.72"
+        const val kotlinVersion = "1.4.10"
 
         const val gradlePlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
         const val std = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion"
-        const val reflect = "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion"
     }
 
     object Android {
@@ -59,14 +57,6 @@ object Deps {
         object AndroidX {
             private const val archComponentsVersion = "2.3.0-rc01"
 
-            object ViewModel {
-                const val core = "androidx.lifecycle:lifecycle-viewmodel-ktx:$archComponentsVersion"
-            }
-
-            object Lifecycle {
-                const val ktx = "androidx.lifecycle:lifecycle-runtime-ktx:$archComponentsVersion"
-            }
-
             object Room {
                 private const val roomVersion = "2.3.0-alpha04"
 
@@ -74,10 +64,11 @@ object Deps {
                 const val compiler = "androidx.room:room-compiler:$roomVersion"
             }
 
+            const val viewModelCore = "androidx.lifecycle:lifecycle-viewmodel-ktx:$archComponentsVersion"
+            const val lifecycleKtx = "androidx.lifecycle:lifecycle-runtime-ktx:$archComponentsVersion"
             const val fragment = "androidx.fragment:fragment-ktx:1.3.0-rc01"
             const val material = "com.google.android.material:material:1.3.0-beta01"
             const val recyclerView = "androidx.recyclerview:recyclerview:1.2.0-beta01"
-            const val emoji = "androidx.emoji:emoji:1.2.0-alpha01"
             const val constraintLayout = "androidx.constraintlayout:constraintlayout:2.1.0-alpha2"
         }
     }

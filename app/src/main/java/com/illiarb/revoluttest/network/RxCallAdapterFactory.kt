@@ -1,7 +1,6 @@
-package com.illiarb.revoluttest.network.rx
+package com.illiarb.revoluttest.network
 
 import com.illiarb.revoluttest.libs.tools.SchedulerProvider
-import com.illiarb.revoluttest.network.ApiErrorMapper
 import retrofit2.Call
 import retrofit2.CallAdapter
 import retrofit2.Retrofit
@@ -14,7 +13,7 @@ import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
 import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
 
-class RxErrorHandlingCallAdapterFactory @Inject constructor(
+class RxCallAdapterFactory @Inject constructor(
     schedulerProvider: SchedulerProvider,
     private val errorMapper: ApiErrorMapper
 ) : CallAdapter.Factory() {
