@@ -111,6 +111,7 @@ fun Project.configureKotlin() {
         extensions.getByType<KaptExtension>().apply {
             correctErrorTypes = true
             mapDiagnosticLocations = true
+            useBuildCache = true
 
             arguments {
                 arg("dagger.formatGeneratedSource", "disabled")
