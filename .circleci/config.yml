@@ -33,10 +33,6 @@ jobs:
           command: ./gradlew androidDependencies
 
       - run:
-          name: Build project
-          command: ./gradlew assembleDebug --scan --rerun-tasks
-
-      - run:
           name: Run unit tests
           command: ./gradlew testDebugUnitTestCoverage
 
