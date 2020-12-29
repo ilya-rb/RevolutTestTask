@@ -1,6 +1,6 @@
 ## Revolut test task
 
-[![CircleCI](https://circleci.com/gh/ilya-rb/RevolutTestTask/tree/master.svg?style=svg)](https://circleci.com/gh/ilya-rb/RevolutTestTask/tree/main)
+[![CircleCI](https://circleci.com/gh/ilya-rb/RevolutTestTask/tree/main.svg?style=svg)](https://circleci.com/gh/ilya-rb/RevolutTestTask/tree/main)
 [![codecov](https://codecov.io/gh/ilya-rb/RevolutTestTask/branch/main/graph/badge.svg?token=TT37OD91DA)](https://codecov.io/gh/ilya-rb/RevolutTestTask)
 
 List all currencies you get from the endpoint (one per row). Each row has an input where
