@@ -10,6 +10,7 @@ import dagger.Module
 import dagger.Provides
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
+import retrofit2.CallAdapter
 import retrofit2.Converter
 import retrofit2.converter.moshi.MoshiConverterFactory
 import java.util.concurrent.TimeUnit
@@ -30,7 +31,7 @@ object NetworkModule {
     fun provideCallAdapterFactory(
         schedulerProvider: SchedulerProvider,
         errorCreator: ApiErrorMapper
-    ) = RxCallAdapterFactory(schedulerProvider, errorCreator)
+    ): CallAdapter.Factory = RxCallAdapterFactory(schedulerProvider, errorCreator)
 
     @Provides
     @JvmStatic
