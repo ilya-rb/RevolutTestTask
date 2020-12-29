@@ -34,8 +34,12 @@ class HomeFragment : BaseFragment(R.layout.fragment_home), Injectable {
     private val delegatesAdapter by lazy(LazyThreadSafetyMode.NONE) {
         object : DelegatesAdapter<UiRate>(
             ItemRateDelegate({ viewModel.onItemClick(it) }, viewModel.amountChangedConsumer),
-            itemDiff = { old, new -> old.code == new.code },
-            changePayload = { old, new -> RatesChangedPayload.create(old, new) }
+            itemDiff = { old, new ->
+                old.code == new.code
+            },
+            changePayload = { old, new ->
+                RatesChangedPayload.create(old, new)
+            }
         ) {
             override fun getItemId(position: Int): Long = items[position].code.hashCode().toLong()
         }

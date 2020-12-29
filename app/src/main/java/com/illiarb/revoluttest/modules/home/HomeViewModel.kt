@@ -10,7 +10,6 @@ import io.reactivex.rxjava3.core.BackpressureStrategy
 import io.reactivex.rxjava3.core.Flowable
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
-import io.reactivex.rxjava3.functions.BiFunction
 import io.reactivex.rxjava3.functions.Consumer
 import io.reactivex.rxjava3.subjects.PublishSubject
 import timber.log.Timber
@@ -56,7 +55,7 @@ class HomeViewModel @Inject constructor(
         Flowable.combineLatest(
             ratesListInternal.toFlowable(/* strategy */ BackpressureStrategy.LATEST),
             _amountChangedConsumer.toFlowable(/* strategy */ BackpressureStrategy.LATEST),
-            BiFunction<LatestRates, Float, List<UiRate>> { rates, newAmount ->
+            { rates, newAmount ->
                 val ratesWithBase = listOf(
                     Rate(
                         imageUrl = rates.baseRate.imageUrl,

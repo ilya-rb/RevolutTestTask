@@ -3,7 +3,8 @@ package com.illiarb.revoluttest
 import android.app.Application
 import com.illiarb.revoluttest.di.AppComponent
 import com.illiarb.revoluttest.di.DaggerAppComponent
-import timber.log.Timber
+import com.illiarb.revoluttest.initializer.AppInitializer
+import javax.inject.Inject
 
 // Used in AndroidManifest.xml
 @Suppress("unused")
@@ -16,6 +17,14 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
         registerActivityLifecycleCallbacks(AppActivityLifecycleCallbacks(appComponent))
-        Timber.plant(Timber.DebugTree())
+        appComponent.inject(this)
+    }
+
+    @Inject
+    @Suppress("unused", "ProtectedInFinal")
+    protected fun runInitializers(initializers: Set<@JvmSuppressWildcards AppInitializer>) {
+        initializers.forEach {
+            it.initialize(app = this)
+        }
     }
 }

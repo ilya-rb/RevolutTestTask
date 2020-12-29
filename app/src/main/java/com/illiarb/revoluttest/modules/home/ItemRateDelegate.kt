@@ -31,9 +31,14 @@ class ItemRateDelegate(
         payloads: MutableList<Any>
     ) {
         val viewHolder = holder as ViewHolder
+
         viewHolder.bind(
             item = items[position],
-            payload = if (payloads.isNotEmpty()) payloads.first() as RatesChangedPayload else null
+            payload = if (payloads.isNotEmpty()) {
+                payloads.first() as RatesChangedPayload
+            } else {
+                null
+            }
         )
     }
 
@@ -74,7 +79,7 @@ class ItemRateDelegate(
 
                 binding.itemRateValue.textChanges()
                     .map { it?.toString()?.toFloatOrNull() ?: 0f }
-                    .subscribe(textChangesConsumer, Consumer { Timber.e(it) })
+                    .subscribe(textChangesConsumer, { Timber.e(it) })
                     .addTo(textChangesDisposable)
             } else {
                 binding.itemRateContainer.setOnClickListener {

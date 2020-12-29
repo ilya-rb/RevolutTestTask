@@ -56,6 +56,12 @@ dependencies {
     implementation(Deps.Misc.timber)
     implementation(Deps.Misc.viewBindingPropertyDelegate)
 
+    debugImplementation(Deps.Tools.Debug.LeakCanary.android)
+
+    debugImplementation(Deps.Tools.Debug.Flipper.flipper)
+    debugImplementation(Deps.Tools.Debug.Flipper.flipperNetwork)
+    debugImplementation(Deps.Tools.Debug.Flipper.soLoader)
+
     testRuntimeOnly(Deps.Test.JUnit5.jupiterEngine)
 
     testImplementation(Deps.Test.AndroidX.core)
@@ -65,9 +71,4 @@ dependencies {
     testImplementation(Deps.Test.JUnit5.jupiterParams)
     testImplementation(Deps.Test.truth)
     testImplementation(Deps.Test.junit)
-
-    // https://github.com/mockk/mockk/issues/281
-    testImplementation(Deps.Test.mockk) { exclude(module = "objenesis") }
-    testImplementation("org.objenesis:objenesis:2.6")
-    // =========================================
 }

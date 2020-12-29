@@ -77,7 +77,6 @@ object Deps {
         private const val glideVersion = "4.11.0"
 
         const val core = "com.github.bumptech.glide:glide:$glideVersion"
-        const val compiler = "com.github.bumptech.glide:compiler:$glideVersion"
     }
 
     object RxJava {
@@ -136,15 +135,12 @@ object Deps {
                 private const val leakCanaryVersion = "2.5"
 
                 const val android = "com.squareup.leakcanary:leakcanary-android:$leakCanaryVersion"
-                const val objectWatcher =
-                    "com.squareup.leakcanary:leakcanary-object-watcher-android:$leakCanaryVersion"
             }
         }
     }
 
     object Misc {
         const val timber = "com.jakewharton.timber:timber:4.7.1"
-        const val lottie = "com.airbnb.android:lottie:3.0.7"
         const val javax = "javax.inject:javax.inject:1"
         const val viewBindingPropertyDelegate =
             "com.kirich1409.viewbindingpropertydelegate:vbpd-noreflection:1.3.1"
