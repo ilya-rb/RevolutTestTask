@@ -32,10 +32,9 @@ class MainActivity : BaseActivity(), Injectable {
     private val viewModel by viewModels<MainViewModel>(factoryProducer = { viewModelFactory })
 
     override fun inject(appProvider: AppProvider) {
-        DaggerMainComponent.factory().create(
-            /* activity */ this,
-            /* dependencies */ appProvider
-        ).inject(this)
+        DaggerMainComponent.factory()
+            .create(activity = this, dependencies = appProvider)
+            .inject(this)
     }
 
     @SuppressLint("UnsafeExperimentalUsageWarning")
