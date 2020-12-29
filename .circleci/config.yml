@@ -33,20 +33,24 @@ jobs:
           command: ./gradlew androidDependencies
 
       - run:
-          name: Run Unit Tests
-          command: ./gradlew assembleDebug #testDebugUnitTestCoverage --scan --rerun-tasks
+          name: Build project
+          command: ./gradlew assembleDebug --scan --rerun-tasks
 
-#      - run:
-#          name: Upload code coverage report
-#          command: bash <(curl -s https://codecov.io/bash) -f "*.xml"
+      - run:
+          name: Run unit tests
+          command: ./gradlew testDebugUnitTestCoverage
 
-#      - run:
-#          name: Run detekt
-#          command: ./gradlew detekt
-#
-#      - run:
-#          name: Run Android lint
-#          command: ./gradlew lintDebug
+      - run:
+          name: Upload code coverage report
+          command: bash <(curl -s https://codecov.io/bash) -f "*.xml"
+
+      - run:
+          name: Run detekt
+          command: ./gradlew detekt
+
+      - run:
+          name: Run Android lint
+          command: ./gradlew lintDebug
 
       - store_artifacts:
           path: reports/

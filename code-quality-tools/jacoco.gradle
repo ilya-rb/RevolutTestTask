@@ -35,7 +35,7 @@ project.afterEvaluate {
 
                 classDirectories.setFrom(
                         fileTree(
-                                dir: "${project.buildDir}/tmp/kotlin-classes/${sourcePath}",
+                                dir: "${project.buildDir}/intermediates/javac/${sourcePath}",
                                 excludes: [
                                         '**/R.class',
                                         '**/R$*.class',
