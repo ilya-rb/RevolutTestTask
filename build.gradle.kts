@@ -125,8 +125,7 @@ fun Project.configureKotlin() {
 fun Project.configureAndroid() {
     plugins.matching { it is AppPlugin || it is LibraryPlugin }.whenPluginAdded {
         configure<BaseExtension> {
-            // TODO: Add this later
-            // apply(from = file("$rootDir/code-quality-tools/jacoco.gradle"))
+            apply(from = file("$rootDir/code-quality-tools/jacoco.gradle"))
 
             setCompileSdkVersion(Deps.Android.Build.compileSdkVersion)
 
