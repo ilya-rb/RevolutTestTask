@@ -55,6 +55,8 @@ dependencies {
     implementation(Deps.Misc.timber)
     implementation(Deps.Misc.viewBindingPropertyDelegate)
 
+    testRuntimeOnly(Deps.Test.JUnit5.jupiterEngine)
+
     testImplementation(Deps.Test.AndroidX.core)
     testImplementation(Deps.Test.AndroidX.rules)
     testImplementation(Deps.Test.AndroidX.extJunit)
