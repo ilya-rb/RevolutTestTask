@@ -38,7 +38,7 @@ jobs:
 
       - run:
           name: Upload code coverage report
-          command: bash <(curl -s https://codecov.io/bash) -f "reports/*.xml"
+          command: bash <(curl -s https://codecov.io/bash) -f "*.xml"
 
       - run:
           name: Run detekt
