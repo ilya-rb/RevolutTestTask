@@ -63,6 +63,6 @@ jobs:
 workflows:
   version: 2
 
-  develop:
+  main:
     jobs:
       - debug-build
