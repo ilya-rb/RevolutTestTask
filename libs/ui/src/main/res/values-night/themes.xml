@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Theme.RevolutTest" parent="Base.Theme.RevolutTest">
+
+        <item name="colorPrimary">@color/revoluttest_black</item>
+        <item name="colorOnPrimary">@color/revoluttest_white</item>
+        <item name="colorPrimaryVariant">@color/revoluttest_blue_800</item>
+        <item name="colorSecondary">@color/revoluttest_deep_orange_500</item>
+        <item name="colorOnSecondary">@color/revoluttest_white</item>
+        <item name="colorSecondaryVariant">@color/revoluttest_deep_orange_800</item>
+        <item name="colorSurface">@color/revoluttest_black</item>
+        <item name="colorOnSurface">@color/revoluttest_white</item>
+        <item name="colorError">@color/revoluttest_red</item>
+        <item name="colorOnError">@color/revoluttest_white</item>
+        <item name="colorOnBackground">@color/revoluttest_white</item>
+
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentNavigation">true</item>
+
+    </style>
+
+</resources>
