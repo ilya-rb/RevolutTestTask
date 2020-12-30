@@ -4,6 +4,7 @@ import android.content.Context
 import com.illiarb.revoluttest.App
 import com.illiarb.revoluttest.di.modules.NetworkModule
 import com.illiarb.revoluttest.di.modules.ApiModule
+import com.illiarb.revoluttest.di.modules.CacheModule
 import com.illiarb.revoluttest.di.modules.DebugModule
 import com.illiarb.revoluttest.di.modules.InitializersModule
 import com.illiarb.revoluttest.di.modules.ServicesModule
@@ -22,7 +23,8 @@ import javax.inject.Singleton
         ServicesModule::class,
         ToolsModule::class,
         InitializersModule::class,
-        DebugModule::class
+        DebugModule::class,
+        CacheModule::class
     ]
 )
 interface AppComponent : AppProvider {

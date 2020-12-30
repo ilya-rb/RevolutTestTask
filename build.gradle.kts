@@ -48,6 +48,7 @@ allprojects {
     repositories {
         google()
         maven("https://oss.sonatype.org/content/repositories/snapshots/")
+        maven("https://jitpack.io")
         jcenter()
     }
 

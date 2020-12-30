@@ -4,7 +4,6 @@ object Build {
     const val coreLibraryDesugaring = "com.android.tools:desugar_jdk_libs:1.0.9"
 
     val kotlinStandardFreeCompilerArgs = listOf(
-        "-progressive",
         "-Xinline-classes",
         "-Xopt-in=kotlin.RequiresOptIn",
         // Generate nullability assertions for non-null Java expressions
@@ -148,6 +147,7 @@ object Deps {
         const val timber = "com.jakewharton.timber:timber:4.7.1"
         const val javax = "javax.inject:javax.inject:1"
         const val lottie = "com.airbnb.android:lottie:3.0.7"
+        const val binaryPrefs = "com.github.yandextaxitech:binaryprefs:1.0.1"
         const val viewBindingPropertyDelegate =
             "com.kirich1409.viewbindingpropertydelegate:vbpd-noreflection:1.3.1"
     }

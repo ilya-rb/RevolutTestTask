@@ -69,6 +69,7 @@ dependencies {
 
     implementation(Deps.Misc.timber)
     implementation(Deps.Misc.viewBindingPropertyDelegate)
+    implementation(Deps.Misc.binaryPrefs)
 
     implementation(platform(Deps.Firebase.bomPlatform))
     implementation(Deps.Firebase.crashlytics)
