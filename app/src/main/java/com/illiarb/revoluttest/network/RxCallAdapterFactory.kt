@@ -41,15 +41,15 @@ class RxCallAdapterFactory @Inject constructor(
         override fun adapt(call: Call<R>): Any {
             return when (val adapted = wrappedCallAdapter.adapt(call)) {
                 is Observable<*> ->
-                    adapted.onErrorResumeNext { Observable.error(errorMapper.mapFromThrowable(it)) }
+                    adapted.onErrorResumeNext { Observable.error(errorMapper.fromThrowable(it)) }
                 is Single<*> ->
-                    adapted.onErrorResumeNext { Single.error(errorMapper.mapFromThrowable(it)) }
+                    adapted.onErrorResumeNext { Single.error(errorMapper.fromThrowable(it)) }
                 is Completable ->
-                    adapted.onErrorResumeNext { Completable.error(errorMapper.mapFromThrowable(it)) }
+                    adapted.onErrorResumeNext { Completable.error(errorMapper.fromThrowable(it)) }
                 is Maybe<*> ->
-                    adapted.onErrorResumeNext { Maybe.error(errorMapper.mapFromThrowable(it)) }
+                    adapted.onErrorResumeNext { Maybe.error(errorMapper.fromThrowable(it)) }
                 is Flowable<*> ->
-                    adapted.onErrorResumeNext { Flowable.error(errorMapper.mapFromThrowable(it)) }
+                    adapted.onErrorResumeNext { Flowable.error(errorMapper.fromThrowable(it)) }
                 else -> adapted
             }
         }
