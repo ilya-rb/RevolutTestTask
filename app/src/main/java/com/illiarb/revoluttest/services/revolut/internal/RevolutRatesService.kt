@@ -42,14 +42,13 @@ internal class RevolutRatesService @Inject constructor(
                 connectivityStatus.connectivityStatus(),
                 BiFunction { _: Long, state: State -> state }
             )
-            .flatMap { state ->
+            .flatMap<Result<LatestRates>> { state ->
                 when (state) {
                     State.NOT_CONNECTED -> ratesCache.latestRates
-                        .flatMap {
+                        .map {
                             when (it) {
-                                is Optional.Some ->
-                                    Flowable.just<Result<LatestRates>>(Result.Ok(it.element))
-                                is Optional.None -> Flowable.error(
+                                is Optional.Some -> Result.Ok(it.element)
+                                is Optional.None -> Result.Err(
                                     ApiError(
                                         message = resourceResolver.getString(R.string.error_io),
                                         kind = ApiError.Kind.HTTP
@@ -71,15 +70,11 @@ internal class RevolutRatesService @Inject constructor(
                                 )
                             )
                         }
-                        .doOnNext { result ->
-                            result.doIfOk {
-                                ratesCache.storeLatestRates(it)
-                            }
-                        }
+                        .doOnNext { result -> result.doIfOk(ratesCache::storeLatestRates) }
                         .subscribeOn(schedulerProvider.io)
                 }
             }
-            .onErrorResumeNext { Flowable.just(Result.Err(it)) }
+            .onErrorResumeNext { Flowable.just<Result<LatestRates>>(Result.Err(it)) }
     }
 
     private fun LatestRatesResponse.asRatesList(): List<Rate> =

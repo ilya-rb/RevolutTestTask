@@ -52,9 +52,9 @@ internal class AndroidConnectivityStatus @Inject constructor(
         @SuppressLint("MissingPermission")
         private fun ConnectivityManager.getCurrentConnectionState(): State {
             return if (activeNetworkInfo?.isConnectedOrConnecting == true) {
-                State.NOT_CONNECTED
-            } else {
                 State.CONNECTED
+            } else {
+                State.NOT_CONNECTED
             }
         }
     }

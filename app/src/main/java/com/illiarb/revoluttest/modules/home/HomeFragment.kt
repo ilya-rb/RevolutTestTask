@@ -20,7 +20,6 @@ import com.illiarb.revoluttest.libs.ui.ext.addTo
 import com.illiarb.revoluttest.libs.ui.ext.exhaustive
 import com.illiarb.revoluttest.libs.ui.widget.SnackbarController
 import com.illiarb.revoluttest.libs.ui.widget.recyclerview.DelegatesAdapter
-import com.illiarb.revoluttest.libs.ui.widget.recyclerview.StatefulRecyclerView
 import com.illiarb.revoluttest.libs.ui.widget.recyclerview.StatefulRecyclerView.State.CONTENT
 import com.illiarb.revoluttest.libs.ui.widget.recyclerview.StatefulRecyclerView.State.EMPTY
 import com.illiarb.revoluttest.libs.ui.widget.recyclerview.StatefulRecyclerView.State.ERROR
@@ -107,7 +106,6 @@ class HomeFragment : BaseFragment(R.layout.fragment_home), Injectable {
 
     private fun showErrorMessage(message: String?) {
         message?.let {
-            snackbarController.dismiss()
             snackbarController.showOrUpdateMessage(
                 message,
                 viewBinding.root,

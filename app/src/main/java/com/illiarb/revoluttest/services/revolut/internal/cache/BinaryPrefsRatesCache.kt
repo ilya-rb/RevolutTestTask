@@ -45,6 +45,10 @@ class BinaryPrefsRatesCache @Inject constructor(context: Context) : RatesCache {
     }
 
     private fun readCachedRates(): Optional<LatestRates> {
+        if (!store.contains(KEY_LATEST_RATES)) {
+            return Optional.None
+        }
+
         val cached = store.getPersistable(KEY_LATEST_RATES, LatestRatestPersistable())
         return if (cached == null) {
             Optional.None
