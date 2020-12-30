@@ -17,6 +17,7 @@ class UiRateMapper @Inject constructor() {
     ) : List<UiRate> {
         return rates.map { rate ->
             val isBase = rate.code == baseCurrency
+
             UiRate(
                 imageUrl = rate.imageUrl,
                 code = rate.code,

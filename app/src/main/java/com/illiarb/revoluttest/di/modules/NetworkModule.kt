@@ -3,7 +3,7 @@ package com.illiarb.revoluttest.di.modules
 import com.illiarb.revoluttest.libs.tools.SchedulerProvider
 import com.illiarb.revoluttest.network.ApiErrorMapper
 import com.illiarb.revoluttest.network.RxCallAdapterFactory
-import com.illiarb.revoluttest.qualifier.NetworkInterceptor
+import com.illiarb.revoluttest.di.qualifier.NetworkInterceptor
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module

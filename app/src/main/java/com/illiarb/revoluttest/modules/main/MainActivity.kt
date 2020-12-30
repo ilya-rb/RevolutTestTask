@@ -14,7 +14,7 @@ import com.illiarb.revoluttest.di.Injectable
 import com.illiarb.revoluttest.libs.tools.SchedulerProvider
 import com.illiarb.revoluttest.libs.ui.base.BaseActivity
 import com.illiarb.revoluttest.libs.ui.ext.addStatusBarTopPadding
-import com.illiarb.revoluttest.libs.ui.ext.fromText
+import com.illiarb.revoluttest.libs.ui.ext.addTo
 import com.illiarb.revoluttest.libs.ui.ext.setVisible
 import com.illiarb.revoluttest.modules.main.di.DaggerMainComponent
 import timber.log.Timber
@@ -50,15 +50,14 @@ class MainActivity : BaseActivity(), Injectable {
             .observeOn(schedulerProvider.main)
             .subscribe(
                 { updateConnectionState(it) },
-                { /* TODO: Log error */ Timber.e(it) }
+                { Timber.e(it) }
             )
-            .unsubscribeOnStop()
+            .addTo(onStopDisposable)
 
         ViewCompat.requestApplyInsets(viewBinding.mainContainer)
     }
 
     private fun updateConnectionState(state: MainViewModel.ConnectionState) {
-        viewBinding.mainNotConnectedLabel.fromText(state.notConnectedText)
         viewBinding.mainNotConnectedLabel.setVisible(state.showLabel)
     }
 }

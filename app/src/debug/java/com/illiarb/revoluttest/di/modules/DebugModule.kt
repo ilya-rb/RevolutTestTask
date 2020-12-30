@@ -9,7 +9,7 @@ import com.facebook.flipper.plugins.network.NetworkFlipperPlugin
 import com.illiarb.revoluttest.initializer.AppInitializer
 import com.illiarb.revoluttest.initializer.FlipperInitializer
 import com.illiarb.revoluttest.initializer.StrictModeInitializer
-import com.illiarb.revoluttest.qualifier.NetworkInterceptor
+import com.illiarb.revoluttest.di.qualifier.NetworkInterceptor
 import dagger.Binds
 import dagger.Module
 import dagger.Provides

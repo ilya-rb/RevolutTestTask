@@ -1,7 +1,10 @@
 package com.illiarb.revoluttest.modules.home
 
+import com.illiarb.revoluttest.R
 import com.illiarb.revoluttest.libs.ui.base.BaseViewModel
+import com.illiarb.revoluttest.libs.ui.common.Text
 import com.illiarb.revoluttest.libs.ui.ext.addTo
+import com.illiarb.revoluttest.libs.util.Async
 import com.illiarb.revoluttest.services.revolut.RatesService
 import com.illiarb.revoluttest.services.revolut.RatesService.LatestRates
 import com.illiarb.revoluttest.services.revolut.entity.Rate
@@ -11,8 +14,10 @@ import io.reactivex.rxjava3.core.Flowable
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.functions.Consumer
+import io.reactivex.rxjava3.subjects.BehaviorSubject
 import io.reactivex.rxjava3.subjects.PublishSubject
 import timber.log.Timber
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class HomeViewModel @Inject constructor(
@@ -23,16 +28,31 @@ class HomeViewModel @Inject constructor(
     private val latestRatesDisposable = CompositeDisposable()
     private val ratesListInternal = BehaviorRelay.create<LatestRates>()
 
-    private val _ratesList = PublishSubject.create<List<UiRate>>()
-    val ratesList: Observable<List<UiRate>>
+    private val _ratesList = BehaviorSubject.createDefault<Async<List<UiRate>>>(Async.Loading())
+    val ratesList: Observable<Async<List<UiRate>>>
         get() = _ratesList.hide()
+
+    private val _snackbarMessages = PublishSubject.create<String?>()
+    val snackbarMessages: Observable<String?>
+        get() = _snackbarMessages.hide()
+
+    val emptyViewText: Observable<Text>
+        get() = ratesList.map<Text> {
+            if (it is Async.Fail) {
+                Text.ResourceIdText(R.string.home_empty_view_error)
+            } else {
+                Text.ResourceIdText(R.string.home_empty_view_loading)
+            }
+        }
 
     private val _amountChangedConsumer = BehaviorRelay.create<Float>()
     val amountChangedConsumer: Consumer<Float>
         get() = _amountChangedConsumer
 
     init {
-        subscribeToRateUpdates()
+        // Since API response comes pretty fast
+        // make initial subscription with a delay to show initial empty state
+        subscribeToRateUpdates(subscriptionDelay = INITIAL_SUBSCRIPTION_DELAY_SECONDS)
     }
 
     override fun onCleared() {
@@ -42,13 +62,15 @@ class HomeViewModel @Inject constructor(
 
     private fun subscribeToRateUpdates(
         baseCurrency: String? = null,
-        baseRate: String = BASE_CURRENCY_DEFAULT_RATE.toString()
+        baseRate: String = BASE_CURRENCY_DEFAULT_RATE.toString(),
+        subscriptionDelay: Long = 0L
     ) {
         _amountChangedConsumer.accept(baseRate.toFloat())
 
         latestRatesDisposable.clear()
 
         ratesService.observeLatestRates(baseCurrency)
+            .delaySubscription(subscriptionDelay, TimeUnit.SECONDS)
             .subscribe(ratesListInternal::accept) { Timber.e(it) }
             .addTo(latestRatesDisposable)
 
@@ -71,8 +93,15 @@ class HomeViewModel @Inject constructor(
                 ).sortedByDescending { it.isBaseRate }
             }
         ).subscribe(
-            { _ratesList.onNext(it) },
-            { /* TODO: Handle error */ Timber.e(it) }
+            { _ratesList.onNext(Async.Success(it)) },
+            { throwable ->
+                Timber.e(throwable)
+                _snackbarMessages.onNext(throwable.message)
+
+                if (!_ratesList.hasValue()) {
+                    _ratesList.onNext(Async.Fail(throwable))
+                }
+            }
         ).addTo(latestRatesDisposable)
     }
 
@@ -82,5 +111,6 @@ class HomeViewModel @Inject constructor(
 
     companion object {
         const val BASE_CURRENCY_DEFAULT_RATE = 1f
+        const val INITIAL_SUBSCRIPTION_DELAY_SECONDS = 2L
     }
 }

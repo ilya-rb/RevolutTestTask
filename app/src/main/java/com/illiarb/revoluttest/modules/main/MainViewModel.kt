@@ -1,9 +1,8 @@
 package com.illiarb.revoluttest.modules.main
 
-import com.illiarb.revoluttest.R
 import com.illiarb.revoluttest.libs.tools.ConnectivityStatus
 import com.illiarb.revoluttest.libs.ui.base.BaseViewModel
-import com.illiarb.revoluttest.libs.ui.common.Text
+import com.illiarb.revoluttest.libs.ui.ext.addTo
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.subjects.BehaviorSubject
 import timber.log.Timber
@@ -21,20 +20,13 @@ class MainViewModel @Inject constructor(
         connectivityStatus.connectivityStatus()
             .subscribe(
                 { _connectionState.onNext(it.asConnectionState()) },
-                { /* TODO: Log error */ Timber.e(it) }
+                { Timber.e(it) }
             )
-            .unsubscribeOnCleared()
+            .addTo(onClearedDisposable)
     }
 
-    private fun ConnectivityStatus.State.asConnectionState(): ConnectionState {
-        return ConnectionState(
-            showLabel = this == ConnectivityStatus.State.NOT_CONNECTED,
-            notConnectedText = Text.ResourceString(R.string.main_network_not_connected)
-        )
-    }
+    private fun ConnectivityStatus.State.asConnectionState(): ConnectionState =
+        ConnectionState(showLabel = this == ConnectivityStatus.State.NOT_CONNECTED)
 
-    data class ConnectionState(
-        val showLabel: Boolean,
-        val notConnectedText: Text
-    )
+    data class ConnectionState(val showLabel: Boolean)
 }

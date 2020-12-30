@@ -1,4 +1,4 @@
-package com.illiarb.revoluttest.qualifier
+package com.illiarb.revoluttest.di.qualifier
 
 import javax.inject.Qualifier
 

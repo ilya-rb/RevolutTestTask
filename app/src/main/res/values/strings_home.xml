@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="home_toolbar_title">Converter</string>
+    <string name="home_empty_view_loading">Loading the rates…</string>
+    <string name="home_empty_view_error">Oops, error loading the rates</string>
 </resources>

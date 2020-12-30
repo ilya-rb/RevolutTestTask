@@ -15,10 +15,10 @@
         android:background="?attr/colorError"
         android:gravity="center_horizontal"
         android:padding="@dimen/spacing_small"
+        android:text="@string/main_network_not_connected"
         android:textAppearance="?attr/textAppearanceBody1"
         android:textColor="?attr/colorOnError"
         android:visibility="gone"
-        tools:text="@tools:sample/lorem"
         tools:visibility="visible" />
 
     <androidx.fragment.app.FragmentContainerView

@@ -1,5 +1,6 @@
 package com.illiarb.revoluttest.di.modules
 
+import com.illiarb.revoluttest.BuildConfig
 import com.illiarb.revoluttest.services.revolut.internal.api.LatestRatesApi
 import dagger.Module
 import dagger.Provides
@@ -27,8 +28,7 @@ object ApiModule {
         converterFactory: Converter.Factory
     ): Retrofit =
         Retrofit.Builder()
-            // TODO: Move out to build config
-            .baseUrl("https://hiring.revolut.codes/api/android/")
+            .baseUrl(BuildConfig.API_URL)
             .addCallAdapterFactory(callAdapterFactory)
             .addConverterFactory(converterFactory)
             .callFactory { okHttpClient.get().newCall(it) }

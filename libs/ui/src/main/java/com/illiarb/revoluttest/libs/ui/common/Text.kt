@@ -1,5 +1,7 @@
 package com.illiarb.revoluttest.libs.ui.common
 
+import androidx.annotation.StringRes
+
 sealed class Text {
-    data class ResourceString(val id: Int) : Text()
+    data class ResourceIdText(@StringRes val id: Int) : Text()
 }

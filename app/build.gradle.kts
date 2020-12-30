@@ -1,6 +1,10 @@
+import java.io.FileInputStream
+import java.util.Properties
+
 plugins {
     id("com.android.application")
     id("de.mannodermaus.android-junit5")
+    id("com.google.firebase.crashlytics")
     kotlin("android")
     kotlin("kapt")
 }
@@ -16,14 +20,24 @@ android {
     }
 
     buildTypes {
+        all {
+            val config = file("$rootDir/api-config.properties")
+            val properties = Properties().also {
+                it.load(FileInputStream(config))
+            }
+            buildConfigField("String", "API_URL", properties.getProperty("api.url"))
+        }
+
         getByName("debug") {
             applicationIdSuffix = ".debug"
         }
 
-        getByName("release") {
-            isMinifyEnabled = true
-            isShrinkResources = true
-            proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
+        buildTypes {
+            getByName("release") {
+                isMinifyEnabled = true
+                isShrinkResources = true
+                proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
+            }
         }
     }
 }
@@ -55,6 +69,9 @@ dependencies {
 
     implementation(Deps.Misc.timber)
     implementation(Deps.Misc.viewBindingPropertyDelegate)
+
+    implementation(platform(Deps.Firebase.bomPlatform))
+    implementation(Deps.Firebase.crashlytics)
 
     debugImplementation(Deps.Tools.Debug.LeakCanary.android)
 

@@ -23,6 +23,8 @@ object Deps {
         const val jacoco = "org.jacoco:org.jacoco.core:0.8.6"
         const val versionsCheck = "com.github.ben-manes:gradle-versions-plugin:0.33.0"
         const val junit5 = "de.mannodermaus.gradle.plugins:android-junit5:1.7.0.0"
+        const val googleServices = "com.google.gms:google-services:4.3.4"
+        const val firebaseCrashlytics = "com.google.firebase:firebase-crashlytics-gradle:2.4.1"
     }
 
     object Modules {
@@ -43,6 +45,11 @@ object Deps {
 
         const val gradlePlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
         const val std = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion"
+    }
+
+    object Firebase {
+        const val bomPlatform = "com.google.firebase:firebase-bom:26.2.0"
+        const val crashlytics = "com.google.firebase:firebase-crashlytics-ktx"
     }
 
     object Android {
@@ -69,6 +76,7 @@ object Deps {
             const val fragment = "androidx.fragment:fragment-ktx:1.3.0-rc01"
             const val material = "com.google.android.material:material:1.3.0-beta01"
             const val recyclerView = "androidx.recyclerview:recyclerview:1.2.0-beta01"
+            const val swipeRefreshLayout = "androidx.swiperefreshlayout:swiperefreshlayout:1.2.0-alpha01"
             const val constraintLayout = "androidx.constraintlayout:constraintlayout:2.1.0-alpha2"
         }
     }
@@ -107,8 +115,6 @@ object Deps {
         private const val adapterDelegatesVersion = "4.3.0"
 
         const val core = "com.hannesdorfmann:adapterdelegates4:$adapterDelegatesVersion"
-        const val dsl =
-            "com.hannesdorfmann:adapterdelegates4-kotlin-dsl-viewbinding:$adapterDelegatesVersion"
     }
 
     object Dagger {
@@ -142,6 +148,7 @@ object Deps {
     object Misc {
         const val timber = "com.jakewharton.timber:timber:4.7.1"
         const val javax = "javax.inject:javax.inject:1"
+        const val lottie = "com.airbnb.android:lottie:3.0.7"
         const val viewBindingPropertyDelegate =
             "com.kirich1409.viewbindingpropertydelegate:vbpd-noreflection:1.3.1"
     }
@@ -152,7 +159,6 @@ object Deps {
         const val truth = "com.google.truth:truth:1.1"
         const val kaspresso = "com.kaspersky.android-components:kaspresso:1.2.0"
         const val kakao = "com.agoda.kakao:kakao:2.3.4"
-        const val mockk = "io.mockk:mockk:1.10.2"
 
         object JUnit5 {
             private const val jUnitVersion = "5.7.0"

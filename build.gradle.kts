@@ -10,10 +10,6 @@ import org.gradle.api.tasks.testing.logging.TestLogEvent
 import org.gradle.kotlin.dsl.closureOf
 import groovy.lang.Closure
 
-apply {
-    plugin("com.github.ben-manes.versions")
-}
-
 buildscript {
 
     repositories {
@@ -33,12 +29,18 @@ buildscript {
         classpath(Deps.GradlePlugins.versionsCheck)
         classpath(Deps.GradlePlugins.jacoco)
         classpath(Deps.GradlePlugins.junit5)
+        classpath(Deps.GradlePlugins.googleServices)
+        classpath(Deps.GradlePlugins.firebaseCrashlytics)
     }
 }
 
 plugins {
     id("io.gitlab.arturbosch.detekt") version "1.15.0"
     id("com.github.ben-manes.versions") version "0.36.0"
+}
+
+apply {
+    plugin("com.github.ben-manes.versions")
 }
 
 allprojects {
@@ -134,16 +136,6 @@ fun Project.configureAndroid() {
                 versionCode = 1
                 versionName = "1.0"
                 vectorDrawables.useSupportLibrary = true
-            }
-
-            buildTypes {
-                getByName("release") {
-                    isMinifyEnabled = false
-                    proguardFiles(
-                        getDefaultProguardFile("proguard-android.txt"),
-                        "proguard-rules.pro"
-                    )
-                }
             }
 
             compileOptions {

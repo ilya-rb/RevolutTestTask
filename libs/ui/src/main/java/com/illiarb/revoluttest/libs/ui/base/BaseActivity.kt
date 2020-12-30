@@ -6,15 +6,13 @@ import io.reactivex.rxjava3.disposables.Disposable
 
 abstract class BaseActivity : AppCompatActivity() {
 
-    private val activityLifecycleDisposable = CompositeDisposable()
-
-    protected fun Disposable.unsubscribeOnStop() = activityLifecycleDisposable.add(this)
+    protected val onStopDisposable = CompositeDisposable()
 
     override fun onStop() {
         super.onStop()
 
         if (!isChangingConfigurations) {
-            activityLifecycleDisposable.dispose()
+            onStopDisposable.dispose()
         }
     }
 }
