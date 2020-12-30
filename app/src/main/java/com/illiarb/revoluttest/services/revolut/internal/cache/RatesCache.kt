@@ -8,4 +8,6 @@ interface RatesCache {
     val latestRates: Flowable<LatestRates>
 
     fun storeLatestRates(rates: LatestRates)
+
+    fun clearCache()
 }

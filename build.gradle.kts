@@ -137,6 +137,12 @@ fun Project.configureAndroid() {
                 versionCode = 1
                 versionName = "1.0"
                 vectorDrawables.useSupportLibrary = true
+
+                testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+                testInstrumentationRunnerArgument(
+                    "runnerBuilder",
+                    "de.mannodermaus.junit5.AndroidJUnit5Builder"
+                )
             }
 
             compileOptions {
