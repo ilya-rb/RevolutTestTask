@@ -94,6 +94,7 @@ class HomeFragment : BaseFragment(R.layout.fragment_home), Injectable {
         viewModel.snackbarMessages
             .observeOn(schedulerProvider.main)
             .subscribe(this::showSnackbarMessage) { Timber.e(it) }
+            .addTo(onDestroyViewDisposable)
 
         ViewCompat.requestApplyInsets(view)
     }

@@ -46,6 +46,12 @@ class MainActivity : BaseActivity(), Injectable {
 
         viewBinding.mainNotConnectedLabel.addStatusBarTopPadding()
 
+        ViewCompat.requestApplyInsets(viewBinding.mainContainer)
+    }
+
+    override fun onStart() {
+        super.onStart()
+
         viewModel.connectionState
             .observeOn(schedulerProvider.main)
             .subscribe(
@@ -53,8 +59,6 @@ class MainActivity : BaseActivity(), Injectable {
                 { Timber.e(it) }
             )
             .addTo(onStopDisposable)
-
-        ViewCompat.requestApplyInsets(viewBinding.mainContainer)
     }
 
     private fun updateConnectionState(state: MainViewModel.ConnectionState) {

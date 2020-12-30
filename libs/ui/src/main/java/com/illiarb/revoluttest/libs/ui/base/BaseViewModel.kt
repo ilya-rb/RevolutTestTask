@@ -8,7 +8,7 @@ abstract class BaseViewModel : ViewModel() {
     protected val onClearedDisposable = CompositeDisposable()
 
     override fun onCleared() {
+        onClearedDisposable.clear()
         super.onCleared()
-        onClearedDisposable.dispose()
     }
 }
