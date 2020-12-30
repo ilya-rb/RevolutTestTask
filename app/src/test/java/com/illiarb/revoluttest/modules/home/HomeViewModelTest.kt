@@ -4,6 +4,7 @@ import com.google.common.truth.Truth.assertThat
 import com.illiarb.revoluttest.common.TestConnectivityStatus
 import com.illiarb.revoluttest.common.TestLatestRatesApi
 import com.illiarb.revoluttest.common.TestRatesCache
+import com.illiarb.revoluttest.common.TestResourceResolver
 import com.illiarb.revoluttest.common.TestSchedulerProvider
 import com.illiarb.revoluttest.services.revolut.internal.ImageUrlCreator
 import com.illiarb.revoluttest.services.revolut.internal.RevolutRatesService
@@ -22,7 +23,8 @@ class HomeViewModelTest {
             ImageUrlCreator(),
             testSchedulerProvider,
             TestRatesCache(),
-            TestConnectivityStatus()
+            TestConnectivityStatus(),
+            TestResourceResolver()
         ),
         UiRateMapper()
     )
