@@ -14,6 +14,8 @@
         <item name="colorError">@color/revoluttest_red</item>
         <item name="colorOnError">@color/revoluttest_white</item>
         <item name="colorOnBackground">@color/revoluttest_white</item>
+        <item name="colorSuccess">@color/revoluttest_green_500</item>
+        <item name="colorOnSuccess">@color/revoluttest_white</item>
 
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowTranslucentStatus">true</item>

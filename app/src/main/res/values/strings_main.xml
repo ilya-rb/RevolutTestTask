@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="main_network_not_connected">Not connected to network</string>
+    <string name="main_network_connected">Back online! Rates will refresh in a sec…</string>
     <string name="main_network_settings_panel">Settings</string>
 </resources>

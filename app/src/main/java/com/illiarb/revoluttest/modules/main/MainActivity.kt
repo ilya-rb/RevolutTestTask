@@ -18,10 +18,13 @@ import com.illiarb.revoluttest.libs.tools.SchedulerProvider
 import com.illiarb.revoluttest.libs.ui.base.BaseActivity
 import com.illiarb.revoluttest.libs.ui.ext.addTo
 import com.illiarb.revoluttest.libs.ui.ext.exhaustive
+import com.illiarb.revoluttest.libs.ui.ext.getColorAttr
 import com.illiarb.revoluttest.libs.ui.widget.SnackbarController
 import com.illiarb.revoluttest.modules.main.di.DaggerMainComponent
 import timber.log.Timber
 import javax.inject.Inject
+import com.google.android.material.R as MaterialR
+import com.illiarb.revoluttest.libs.ui.R as UiR
 
 class MainActivity : BaseActivity(), Injectable {
 
@@ -59,13 +62,26 @@ class MainActivity : BaseActivity(), Injectable {
 
     private fun updateConnectionState(state: ConnectivityStatus.State) {
         when (state) {
-            ConnectivityStatus.State.CONNECTED -> snackbarController.dismiss()
+            ConnectivityStatus.State.CONNECTED -> {
+                snackbarController.dismiss()
+                snackbarController.showOrUpdateMessage(
+                    getString(R.string.main_network_connected),
+                    window.decorView,
+                    Snackbar.LENGTH_LONG
+                ) {
+                    it.setBackgroundTint(getColorAttr(UiR.attr.colorSuccess))
+                    it.setTextColor(getColorAttr(UiR.attr.colorOnSuccess))
+                }
+            }
             ConnectivityStatus.State.NOT_CONNECTED -> {
                 snackbarController.showOrUpdateMessage(
                     getString(R.string.main_network_not_connected),
                     window.decorView,
                     Snackbar.LENGTH_INDEFINITE
                 ) {
+                    it.setBackgroundTint(getColorAttr(MaterialR.attr.colorError))
+                    it.setTextColor(getColorAttr(MaterialR.attr.colorOnError))
+
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                         it.setupSnackbarConnectivityAction()
                     }

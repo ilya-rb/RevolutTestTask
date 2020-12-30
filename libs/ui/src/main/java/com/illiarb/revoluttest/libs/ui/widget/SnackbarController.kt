@@ -35,5 +35,6 @@ class SnackbarController {
 
     fun dismiss() {
         snackbar?.dismiss()
+        snackbar = null
     }
 }
