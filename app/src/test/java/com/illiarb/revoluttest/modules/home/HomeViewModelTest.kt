@@ -1,7 +1,9 @@
 package com.illiarb.revoluttest.modules.home
 
 import com.google.common.truth.Truth.assertThat
+import com.illiarb.revoluttest.common.TestConnectivityStatus
 import com.illiarb.revoluttest.common.TestLatestRatesApi
+import com.illiarb.revoluttest.common.TestRatesCache
 import com.illiarb.revoluttest.common.TestSchedulerProvider
 import com.illiarb.revoluttest.services.revolut.internal.ImageUrlCreator
 import com.illiarb.revoluttest.services.revolut.internal.RevolutRatesService
@@ -18,7 +20,9 @@ class HomeViewModelTest {
         RevolutRatesService(
             TestLatestRatesApi(),
             ImageUrlCreator(),
-            testSchedulerProvider
+            testSchedulerProvider,
+            TestRatesCache(),
+            TestConnectivityStatus()
         ),
         UiRateMapper()
     )
@@ -30,8 +34,8 @@ class HomeViewModelTest {
         repeat(times = 10) { i ->
             testSchedulerProvider.advanceToNextRateUpdate()
             rates.assertValueAt(i) {
-                it.first().isBaseRate
-                it.drop(1).all { rate -> !rate.isBaseRate }
+                it.data().first().isBaseRate
+                it.data().drop(1).all { rate -> !rate.isBaseRate }
             }
         }
     }
@@ -49,7 +53,7 @@ class HomeViewModelTest {
             viewModel.amountChangedConsumer.accept(inputBuilder.append("1").toString().toFloat())
 
             val expected = inputBuilder.toString().toInt()
-            val actual = rates.values()[i + 1].first().rate.toFloat().roundToInt()
+            val actual = rates.values()[i + 1].data().first().rate.toFloat().roundToInt()
             assertThat(expected).isEqualTo(actual)
         }
     }
@@ -61,9 +65,9 @@ class HomeViewModelTest {
         // Init with the first rates
         testSchedulerProvider.advanceToNextRateUpdate()
 
-        val itemsSize = rates.values().first().size
+        val itemsSize = rates.values().first().data().size
         val random = Random(100)
-        val selectedNewRateCode = rates.values().first()[random.nextInt(1, itemsSize)].code
+        val selectedNewRateCode = rates.values().first().data()[random.nextInt(1, itemsSize)].code
 
         viewModel.onItemClick(
             UiRate(
@@ -79,7 +83,7 @@ class HomeViewModelTest {
 
         testSchedulerProvider.advanceToNextRateUpdate()
 
-        val newBase = rates.values().last().first()
+        val newBase = rates.values().last().data().first()
         assertThat(newBase.code).isEqualTo(selectedNewRateCode)
         assertThat(newBase.isBaseRate).isTrue()
     }

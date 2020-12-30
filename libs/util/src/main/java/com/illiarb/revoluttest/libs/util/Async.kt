@@ -22,4 +22,6 @@ sealed class Async<out T> {
      * Can be invoked as an operator like: `yourProp()`
      */
     open operator fun invoke(): T? = null
+
+    fun data(): T = (this as Success).data()
 }

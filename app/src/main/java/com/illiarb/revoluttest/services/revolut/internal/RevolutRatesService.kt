@@ -3,6 +3,8 @@ package com.illiarb.revoluttest.services.revolut.internal
 import com.illiarb.revoluttest.libs.tools.ConnectivityStatus
 import com.illiarb.revoluttest.libs.tools.ConnectivityStatus.State
 import com.illiarb.revoluttest.libs.tools.SchedulerProvider
+import com.illiarb.revoluttest.libs.ui.ext.exhaustive
+import com.illiarb.revoluttest.libs.util.Optional
 import com.illiarb.revoluttest.services.revolut.RatesService
 import com.illiarb.revoluttest.services.revolut.entity.Rate
 import com.illiarb.revoluttest.services.revolut.internal.api.LatestRatesApi
@@ -36,7 +38,13 @@ internal class RevolutRatesService @Inject constructor(
             )
             .flatMap { state ->
                 when (state) {
-                    State.NOT_CONNECTED -> ratesCache.latestRates
+                    State.NOT_CONNECTED -> ratesCache.latestRates.flatMap {
+                        when (it) {
+                            is Optional.Some -> Flowable.just(it.element)
+                            is Optional.None ->
+                                Flowable.error(RuntimeException("Not connected to network"))
+                        }.exhaustive
+                    }
                     else -> latestRatesApi.latest(baseCurrency)
                         .map {
                             RatesService.LatestRates(
@@ -49,7 +57,6 @@ internal class RevolutRatesService @Inject constructor(
                             )
                         }
                         .doOnNext(ratesCache::storeLatestRates)
-                        .onErrorResumeNext { ratesCache.latestRates }
                 }
             }
     }

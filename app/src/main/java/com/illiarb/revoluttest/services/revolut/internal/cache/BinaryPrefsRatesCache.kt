@@ -1,6 +1,7 @@
 package com.illiarb.revoluttest.services.revolut.internal.cache
 
 import android.content.Context
+import com.illiarb.revoluttest.libs.util.Optional
 import com.illiarb.revoluttest.services.revolut.RatesService.LatestRates
 import com.illiarb.revoluttest.services.revolut.entity.Rate
 import com.ironz.binaryprefs.BinaryPreferencesBuilder
@@ -14,7 +15,7 @@ import javax.inject.Singleton
 @Singleton
 class BinaryPrefsRatesCache @Inject constructor(context: Context) : RatesCache {
 
-    private val ratesSubject = PublishSubject.create<LatestRates>()
+    private val ratesSubject = PublishSubject.create<Optional<LatestRates>>()
     private val store = BinaryPreferencesBuilder(context)
         .name(STORE_NAME)
         .externalStorage(false)
@@ -22,8 +23,9 @@ class BinaryPrefsRatesCache @Inject constructor(context: Context) : RatesCache {
         .exceptionHandler { Timber.e(it) }
         .build()
 
-    override val latestRates: Flowable<LatestRates>
+    override val latestRates: Flowable<Optional<LatestRates>>
         get() = ratesSubject.toFlowable(/* strategy */ BackpressureStrategy.LATEST)
+            .startWithItem(readCachedRates())
 
     override fun storeLatestRates(rates: LatestRates) {
         store.edit().putPersistable(
@@ -42,15 +44,20 @@ class BinaryPrefsRatesCache @Inject constructor(context: Context) : RatesCache {
         ratesSubject.onNext(readCachedRates())
     }
 
-    private fun readCachedRates(): LatestRates {
+    private fun readCachedRates(): Optional<LatestRates> {
         val cached = store.getPersistable(KEY_LATEST_RATES, LatestRatestPersistable())
-
-        return LatestRates(
-            baseRate = cached.baseRate.asDomainRate(),
-            rates = cached.rates.map {
-                it.asDomainRate()
-            }
-        )
+        return if (cached == null) {
+            Optional.None
+        } else {
+            Optional.Some(
+                LatestRates(
+                    baseRate = cached.baseRate.asDomainRate(),
+                    rates = cached.rates.map {
+                        it.asDomainRate()
+                    }
+                )
+            )
+        }
     }
 
     private fun RatePersistable.asDomainRate(): Rate =

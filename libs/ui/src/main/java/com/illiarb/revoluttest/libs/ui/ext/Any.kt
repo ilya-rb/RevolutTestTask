@@ -1,4 +1,4 @@
 package com.illiarb.revoluttest.libs.ui.ext
 
-val Any?.exhaustive: Any?
+val <T> T?.exhaustive: T?
     get() = this

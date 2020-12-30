@@ -1,6 +1,8 @@
 package com.illiarb.revoluttest.services.revolut.internal
 
+import com.illiarb.revoluttest.common.TestConnectivityStatus
 import com.illiarb.revoluttest.common.TestLatestRatesApi
+import com.illiarb.revoluttest.common.TestRatesCache
 import com.illiarb.revoluttest.common.TestSchedulerProvider
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
@@ -9,8 +11,13 @@ import org.junit.jupiter.api.TestInstance
 class RevolutRatesServiceTest {
 
     private val testSchedulerProvider = TestSchedulerProvider()
-    private val revolutRatesService =
-        RevolutRatesService(TestLatestRatesApi(), ImageUrlCreator(), testSchedulerProvider)
+    private val revolutRatesService = RevolutRatesService(
+        TestLatestRatesApi(),
+        ImageUrlCreator(),
+        testSchedulerProvider,
+        TestRatesCache(),
+        TestConnectivityStatus()
+    )
 
     @Test
     fun `given null as base currency it should return default currency as EUR`() {

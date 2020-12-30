@@ -4,7 +4,6 @@ import com.illiarb.revoluttest.libs.tools.ResourceResolver
 import okhttp3.ResponseBody
 import javax.inject.Inject
 
-// TODO:
 class ApiErrorMapper @Inject constructor(
     private val resourceResolver: ResourceResolver
 ) {
