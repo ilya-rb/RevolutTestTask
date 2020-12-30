@@ -76,7 +76,6 @@ object Deps {
             const val fragment = "androidx.fragment:fragment-ktx:1.3.0-rc01"
             const val material = "com.google.android.material:material:1.3.0-beta01"
             const val recyclerView = "androidx.recyclerview:recyclerview:1.2.0-beta01"
-            const val swipeRefreshLayout = "androidx.swiperefreshlayout:swiperefreshlayout:1.2.0-alpha01"
             const val constraintLayout = "androidx.constraintlayout:constraintlayout:2.1.0-alpha2"
         }
     }

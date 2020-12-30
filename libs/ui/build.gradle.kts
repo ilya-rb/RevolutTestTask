@@ -17,7 +17,6 @@ dependencies {
     api(Deps.Android.AndroidX.material)
     api(Deps.Android.AndroidX.recyclerView)
     api(Deps.Android.AndroidX.constraintLayout)
-    api(Deps.Android.AndroidX.swipeRefreshLayout)
     api(Deps.Android.AndroidX.lifecycleKtx)
     api(Deps.Android.AndroidX.viewModelCore)
 
