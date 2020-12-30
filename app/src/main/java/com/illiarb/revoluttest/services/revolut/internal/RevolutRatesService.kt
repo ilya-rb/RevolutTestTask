@@ -1,11 +1,16 @@
 package com.illiarb.revoluttest.services.revolut.internal
 
+import com.illiarb.revoluttest.R
 import com.illiarb.revoluttest.libs.tools.ConnectivityStatus
 import com.illiarb.revoluttest.libs.tools.ConnectivityStatus.State
+import com.illiarb.revoluttest.libs.tools.ResourceResolver
 import com.illiarb.revoluttest.libs.tools.SchedulerProvider
 import com.illiarb.revoluttest.libs.ui.ext.exhaustive
 import com.illiarb.revoluttest.libs.util.Optional
+import com.illiarb.revoluttest.libs.util.Result
+import com.illiarb.revoluttest.network.ApiError
 import com.illiarb.revoluttest.services.revolut.RatesService
+import com.illiarb.revoluttest.services.revolut.RatesService.LatestRates
 import com.illiarb.revoluttest.services.revolut.entity.Rate
 import com.illiarb.revoluttest.services.revolut.internal.api.LatestRatesApi
 import com.illiarb.revoluttest.services.revolut.internal.api.LatestRatesResponse
@@ -20,13 +25,14 @@ internal class RevolutRatesService @Inject constructor(
     private val imageUrlCreator: ImageUrlCreator,
     private val schedulerProvider: SchedulerProvider,
     private val ratesCache: RatesCache,
-    private val connectivityStatus: ConnectivityStatus
+    private val connectivityStatus: ConnectivityStatus,
+    private val resourceResolver: ResourceResolver
 ) : RatesService {
 
     override fun observeLatestRates(
         baseCurrency: String?,
         updateInterval: Long
-    ): Flowable<RatesService.LatestRates> {
+    ): Flowable<Result<LatestRates>> {
         return Flowable.interval(
             updateInterval,
             TimeUnit.MILLISECONDS,
@@ -38,27 +44,42 @@ internal class RevolutRatesService @Inject constructor(
             )
             .flatMap { state ->
                 when (state) {
-                    State.NOT_CONNECTED -> ratesCache.latestRates.flatMap {
-                        when (it) {
-                            is Optional.Some -> Flowable.just(it.element)
-                            is Optional.None ->
-                                Flowable.error(RuntimeException("Not connected to network"))
-                        }.exhaustive
-                    }
+                    State.NOT_CONNECTED -> ratesCache.latestRates
+                        .flatMap {
+                            when (it) {
+                                is Optional.Some ->
+                                    Flowable.just<Result<LatestRates>>(Result.Ok(it.element))
+                                is Optional.None -> Flowable.error(
+                                    ApiError(
+                                        message = resourceResolver.getString(R.string.error_io),
+                                        kind = ApiError.Kind.HTTP
+                                    )
+                                )
+                            }.exhaustive
+                        }
+                        .subscribeOn(schedulerProvider.io)
                     else -> latestRatesApi.latest(baseCurrency)
                         .map {
-                            RatesService.LatestRates(
-                                baseRate = Rate(
-                                    imageUrl = imageUrlCreator.createCountryFlagUrl(it.baseCurrency),
-                                    code = it.baseCurrency,
-                                    rate = 1f
-                                ),
-                                rates = it.asRatesList()
+                            Result.Ok(
+                                LatestRates(
+                                    baseRate = Rate(
+                                        imageUrl = imageUrlCreator.createCountryFlagUrl(it.baseCurrency),
+                                        code = it.baseCurrency,
+                                        rate = 1f
+                                    ),
+                                    rates = it.asRatesList()
+                                )
                             )
                         }
-                        .doOnNext(ratesCache::storeLatestRates)
+                        .doOnNext { result ->
+                            result.doIfOk {
+                                ratesCache.storeLatestRates(it)
+                            }
+                        }
+                        .subscribeOn(schedulerProvider.io)
                 }
             }
+            .onErrorResumeNext { Flowable.just(Result.Err(it)) }
     }
 
     private fun LatestRatesResponse.asRatesList(): List<Rate> =

@@ -20,8 +20,10 @@ import com.illiarb.revoluttest.libs.ui.ext.addTo
 import com.illiarb.revoluttest.libs.ui.ext.exhaustive
 import com.illiarb.revoluttest.libs.ui.widget.SnackbarController
 import com.illiarb.revoluttest.libs.ui.widget.recyclerview.DelegatesAdapter
+import com.illiarb.revoluttest.libs.ui.widget.recyclerview.StatefulRecyclerView
 import com.illiarb.revoluttest.libs.ui.widget.recyclerview.StatefulRecyclerView.State.CONTENT
 import com.illiarb.revoluttest.libs.ui.widget.recyclerview.StatefulRecyclerView.State.EMPTY
+import com.illiarb.revoluttest.libs.ui.widget.recyclerview.StatefulRecyclerView.State.ERROR
 import com.illiarb.revoluttest.libs.util.Async
 import com.illiarb.revoluttest.modules.home.di.DaggerHomeComponent
 import timber.log.Timber
@@ -74,7 +76,11 @@ class HomeFragment : BaseFragment(R.layout.fragment_home), Injectable {
                 {
                     when (it) {
                         is Async.Uninitialized, is Async.Loading, is Async.Fail ->
-                            viewBinding.homeRatesList.moveToState(EMPTY)
+                            if (it is Async.Fail) {
+                                viewBinding.homeRatesList.moveToState(ERROR)
+                            } else {
+                                viewBinding.homeRatesList.moveToState(EMPTY)
+                            }
                         is Async.Success -> {
                             delegatesAdapter.submitList(it())
                             viewBinding.homeRatesList.moveToState(CONTENT)
@@ -91,17 +97,23 @@ class HomeFragment : BaseFragment(R.layout.fragment_home), Injectable {
             .subscribe(viewBinding.homeRatesList::setAnimationViewCaption) { Timber.e(it) }
             .addTo(onDestroyViewDisposable)
 
-        viewModel.snackbarMessages
+        viewModel.errorMessages
             .observeOn(schedulerProvider.main)
-            .subscribe(this::showSnackbarMessage) { Timber.e(it) }
+            .subscribe(this::showErrorMessage) { Timber.e(it) }
             .addTo(onDestroyViewDisposable)
 
         ViewCompat.requestApplyInsets(view)
     }
 
-    private fun showSnackbarMessage(message: String?) {
+    private fun showErrorMessage(message: String?) {
         message?.let {
-            snackbarController.showOrUpdateMessage(message, viewBinding.root, Snackbar.LENGTH_LONG)
+            snackbarController.dismiss()
+            snackbarController.showOrUpdateMessage(
+                message,
+                viewBinding.root,
+                Snackbar.LENGTH_LONG,
+                SnackbarController.Style.ERROR
+            )
         }
     }
 }

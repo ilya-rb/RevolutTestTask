@@ -4,7 +4,9 @@ import com.illiarb.revoluttest.R
 import com.illiarb.revoluttest.libs.ui.base.BaseViewModel
 import com.illiarb.revoluttest.libs.ui.common.Text
 import com.illiarb.revoluttest.libs.ui.ext.addTo
+import com.illiarb.revoluttest.libs.ui.ext.exhaustive
 import com.illiarb.revoluttest.libs.util.Async
+import com.illiarb.revoluttest.libs.util.Result
 import com.illiarb.revoluttest.services.revolut.RatesService
 import com.illiarb.revoluttest.services.revolut.RatesService.LatestRates
 import com.illiarb.revoluttest.services.revolut.entity.Rate
@@ -32,9 +34,9 @@ class HomeViewModel @Inject constructor(
     val ratesList: Observable<Async<List<UiRate>>>
         get() = _ratesList.hide()
 
-    private val _snackbarMessages = PublishSubject.create<String?>()
-    val snackbarMessages: Observable<String?>
-        get() = _snackbarMessages.hide()
+    private val _errorMessages = PublishSubject.create<String?>()
+    val errorMessages: Observable<String?>
+        get() = _errorMessages.hide()
 
     val emptyViewText: Observable<Text>
         get() = ratesList.map<Text> {
@@ -71,7 +73,15 @@ class HomeViewModel @Inject constructor(
 
         ratesService.observeLatestRates(baseCurrency)
             .delaySubscription(subscriptionDelay, TimeUnit.SECONDS)
-            .subscribe(ratesListInternal::accept) { Timber.e(it) }
+            .subscribe(
+                {
+                    when (it) {
+                        is Result.Ok -> ratesListInternal.accept(it.data)
+                        is Result.Err -> onRateUpdateError(it.error)
+                    }.exhaustive
+                },
+                { onRateUpdateError(it) }
+            )
             .addTo(latestRatesDisposable)
 
         Flowable.combineLatest(
@@ -94,19 +104,21 @@ class HomeViewModel @Inject constructor(
             }
         ).subscribe(
             { _ratesList.onNext(Async.Success(it)) },
-            { throwable ->
-                Timber.e(throwable)
-                _snackbarMessages.onNext(throwable.message)
-
-                if (!_ratesList.hasValue()) {
-                    _ratesList.onNext(Async.Fail(throwable))
-                }
-            }
+            { onRateUpdateError(it) }
         ).addTo(latestRatesDisposable)
     }
 
     fun onItemClick(item: UiRate) {
         subscribeToRateUpdates(item.code, item.rate)
+    }
+
+    private fun onRateUpdateError(error: Throwable) {
+        Timber.e(error)
+        _errorMessages.onNext(error.message)
+
+        if (_ratesList.value !is Async.Success) {
+            _ratesList.onNext(Async.Fail(error))
+        }
     }
 
     companion object {

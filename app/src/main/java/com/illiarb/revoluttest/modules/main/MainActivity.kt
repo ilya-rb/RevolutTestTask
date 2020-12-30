@@ -67,21 +67,17 @@ class MainActivity : BaseActivity(), Injectable {
                 snackbarController.showOrUpdateMessage(
                     getString(R.string.main_network_connected),
                     window.decorView,
-                    Snackbar.LENGTH_LONG
-                ) {
-                    it.setBackgroundTint(getColorAttr(UiR.attr.colorSuccess))
-                    it.setTextColor(getColorAttr(UiR.attr.colorOnSuccess))
-                }
+                    Snackbar.LENGTH_LONG,
+                    SnackbarController.Style.SUCCESS
+                )
             }
             ConnectivityStatus.State.NOT_CONNECTED -> {
                 snackbarController.showOrUpdateMessage(
                     getString(R.string.main_network_not_connected),
                     window.decorView,
-                    Snackbar.LENGTH_INDEFINITE
+                    Snackbar.LENGTH_INDEFINITE,
+                    SnackbarController.Style.ERROR
                 ) {
-                    it.setBackgroundTint(getColorAttr(MaterialR.attr.colorError))
-                    it.setTextColor(getColorAttr(MaterialR.attr.colorOnError))
-
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                         it.setupSnackbarConnectivityAction()
                     }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="error_io">Error while connecting to rates service</string>
+    <string name="error_io">Error while connecting to rates service, please check your network connection.</string>
     <string name="error_unknown">Unknown error, please try again later</string>
     <string name="error_http">Error while requesting the latest rates</string>
 
