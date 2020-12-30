@@ -8,7 +8,12 @@ class SnackbarController {
 
     private var snackbar: Snackbar? = null
 
-    fun showOrUpdateMessage(message: String, view: View, duration: Int) {
+    fun showOrUpdateMessage(
+        message: String,
+        view: View,
+        duration: Int,
+        init: (Snackbar) -> Unit
+    ) {
         if (snackbar == null) {
             snackbar = Snackbar.make(view, message, duration)
                 .apply {
@@ -18,10 +23,15 @@ class SnackbarController {
                             snackbar = null
                         }
                     })
+                    init(this)
                 }
                 .also { it.show() }
         } else {
             snackbar!!.setText(message)
         }
+    }
+
+    fun dismiss() {
+        snackbar?.dismiss()
     }
 }

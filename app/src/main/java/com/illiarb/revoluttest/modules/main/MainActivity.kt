@@ -1,21 +1,24 @@
 package com.illiarb.revoluttest.modules.main
 
 import android.annotation.SuppressLint
+import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import androidx.activity.viewModels
-import androidx.core.view.ViewCompat
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
-import by.kirich1409.viewbindingdelegate.viewBinding
+import com.google.android.material.snackbar.Snackbar
 import com.illiarb.revoluttest.R
-import com.illiarb.revoluttest.databinding.ActivityMainBinding
 import com.illiarb.revoluttest.di.AppProvider
 import com.illiarb.revoluttest.di.Injectable
+import com.illiarb.revoluttest.libs.tools.ConnectivityStatus
 import com.illiarb.revoluttest.libs.tools.SchedulerProvider
 import com.illiarb.revoluttest.libs.ui.base.BaseActivity
-import com.illiarb.revoluttest.libs.ui.ext.addStatusBarTopPadding
 import com.illiarb.revoluttest.libs.ui.ext.addTo
-import com.illiarb.revoluttest.libs.ui.ext.setVisible
+import com.illiarb.revoluttest.libs.ui.ext.exhaustive
+import com.illiarb.revoluttest.libs.ui.widget.SnackbarController
 import com.illiarb.revoluttest.modules.main.di.DaggerMainComponent
 import timber.log.Timber
 import javax.inject.Inject
@@ -28,8 +31,8 @@ class MainActivity : BaseActivity(), Injectable {
     @Inject
     lateinit var schedulerProvider: SchedulerProvider
 
-    private val viewBinding by viewBinding(ActivityMainBinding::bind, R.id.main_container)
     private val viewModel by viewModels<MainViewModel>(factoryProducer = { viewModelFactory })
+    private val snackbarController = SnackbarController()
 
     override fun inject(appProvider: AppProvider) {
         DaggerMainComponent.factory()
@@ -43,10 +46,6 @@ class MainActivity : BaseActivity(), Injectable {
         setContentView(R.layout.activity_main)
 
         FragmentManager.enableNewStateManager(/* enabled */ true)
-
-        viewBinding.mainNotConnectedLabel.addStatusBarTopPadding()
-
-        ViewCompat.requestApplyInsets(viewBinding.mainContainer)
     }
 
     override fun onStart() {
@@ -54,14 +53,31 @@ class MainActivity : BaseActivity(), Injectable {
 
         viewModel.connectionState
             .observeOn(schedulerProvider.main)
-            .subscribe(
-                { updateConnectionState(it) },
-                { Timber.e(it) }
-            )
+            .subscribe(this::updateConnectionState) { Timber.e(it) }
             .addTo(onStopDisposable)
     }
 
-    private fun updateConnectionState(state: MainViewModel.ConnectionState) {
-        viewBinding.mainNotConnectedLabel.setVisible(state.showLabel)
+    private fun updateConnectionState(state: ConnectivityStatus.State) {
+        when (state) {
+            ConnectivityStatus.State.CONNECTED -> snackbarController.dismiss()
+            ConnectivityStatus.State.NOT_CONNECTED -> {
+                snackbarController.showOrUpdateMessage(
+                    getString(R.string.main_network_not_connected),
+                    window.decorView,
+                    Snackbar.LENGTH_INDEFINITE
+                ) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                        it.setupSnackbarConnectivityAction()
+                    }
+                }
+            }
+        }.exhaustive
+    }
+
+    @RequiresApi(Build.VERSION_CODES.Q)
+    private fun Snackbar.setupSnackbarConnectivityAction() {
+        setAction(R.string.main_network_settings_panel) {
+            startActivity(Intent(Settings.Panel.ACTION_INTERNET_CONNECTIVITY))
+        }
     }
 }
