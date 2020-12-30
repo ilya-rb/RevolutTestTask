@@ -12,7 +12,7 @@ class SnackbarController {
         message: String,
         view: View,
         duration: Int,
-        init: (Snackbar) -> Unit
+        init: (Snackbar) -> Unit = {}
     ) {
         if (snackbar == null) {
             snackbar = Snackbar.make(view, message, duration)
@@ -27,7 +27,9 @@ class SnackbarController {
                 }
                 .also { it.show() }
         } else {
-            snackbar!!.setText(message)
+            snackbar!!.setText(message).apply {
+                init(this)
+            }
         }
     }
 

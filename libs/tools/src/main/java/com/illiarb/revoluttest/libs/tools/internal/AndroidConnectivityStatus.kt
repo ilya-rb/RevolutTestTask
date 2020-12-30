@@ -9,8 +9,6 @@ import android.net.NetworkRequest
 import com.illiarb.revoluttest.libs.tools.ConnectivityStatus
 import io.reactivex.rxjava3.core.BackpressureStrategy
 import io.reactivex.rxjava3.core.Flowable
-import io.reactivex.rxjava3.core.Observable
-import timber.log.Timber
 import javax.inject.Inject
 
 internal class AndroidConnectivityStatus @Inject constructor(
@@ -20,7 +18,7 @@ internal class AndroidConnectivityStatus @Inject constructor(
     private val connectivityManager =
         context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
-    @SuppressLint("MissingPermission")
+    @SuppressLint("MissingPermission") //  I DO have a permission!
     override fun connectivityStatus(): Flowable<ConnectivityStatus.State> {
         return Flowable.create<ConnectivityStatus.State>({ emitter ->
             val networkCallback = object : ConnectivityManager.NetworkCallback() {
@@ -43,7 +41,7 @@ internal class AndroidConnectivityStatus @Inject constructor(
 
             connectivityManager.registerNetworkCallback(
                 NetworkRequest.Builder()
-                    .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+                    .addCapability(NetworkCapabilities.NET_CAPABILITY_NOT_METERED)
                     .build(),
                 networkCallback
             )
