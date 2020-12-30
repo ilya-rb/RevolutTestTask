@@ -1,4 +1,4 @@
-package com.illiarb.revoluttest
+package com.illiarb.revoluttest.integration
 
 import androidx.test.platform.app.InstrumentationRegistry
 import com.illiarb.revoluttest.services.revolut.RatesService.LatestRates

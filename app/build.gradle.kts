@@ -93,6 +93,10 @@ dependencies {
     androidTestImplementation(Deps.Test.JUnit5.jupiterApi)
     androidTestImplementation(Deps.Test.JUnit5.androidTestCore)
     androidTestImplementation(Deps.Test.AndroidX.runner)
+    androidTestImplementation(Deps.Test.AndroidX.extJunit)
+    androidTestImplementation(Deps.Test.kaspresso)
+    androidTestImplementation(Deps.Test.kakao)
+    androidTestImplementation(Deps.Test.AndroidX.uiAutomator)
 
     androidTestRuntimeOnly(Deps.Test.JUnit5.androidTestRunner)
 }
