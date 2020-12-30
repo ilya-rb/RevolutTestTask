@@ -1,26 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
     <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/home_app_bar"
+        android:id="@+id/homeAppBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:elevation="0dp"
         app:liftOnScroll="true"
-        app:liftOnScrollTargetViewId="@id/homeRatesList">
+        app:liftOnScrollTargetViewId="@id/srv_recycler_view">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/home_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:navigationIcon="@drawable/ic_close"
-            app:title="@string/home_toolbar_title"
-            tools:title="Rates"
-            tools:visibility="visible" />
+            app:title="@string/home_toolbar_title" />
 
     </com.google.android.material.appbar.AppBarLayout>
 

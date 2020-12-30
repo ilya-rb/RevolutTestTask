@@ -55,8 +55,8 @@ class StatefulRecyclerView @JvmOverloads constructor(
         }.exhaustive
     }
 
-    fun setupRecyclerView(init: (RecyclerView) -> Unit) {
-        init(recyclerView)
+    fun recyclerView(block: (RecyclerView) -> Unit) {
+        block(recyclerView)
     }
 
     fun moveToState(newState: State) = invalidateState(newState)

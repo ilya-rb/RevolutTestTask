@@ -61,7 +61,7 @@ class HomeFragment : BaseFragment(R.layout.fragment_home), Injectable {
         }
 
         viewBinding.homeRatesList.setAnimationViewRawRes(R.raw.anim_exchange)
-        viewBinding.homeRatesList.setupRecyclerView {
+        viewBinding.homeRatesList.recyclerView {
             it.layoutManager = LinearLayoutManager(view.context)
             it.adapter = delegatesAdapter.also { adapter -> adapter.setHasStableIds(true) }
             it.setHasFixedSize(true)
