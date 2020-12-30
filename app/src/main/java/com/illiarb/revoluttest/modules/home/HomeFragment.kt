@@ -66,8 +66,8 @@ class HomeFragment : BaseFragment(R.layout.fragment_home), Injectable {
             it.layoutManager = LinearLayoutManager(view.context)
             it.adapter = delegatesAdapter.also { adapter -> adapter.setHasStableIds(true) }
             it.setHasFixedSize(true)
-            it.addNavigationBarBottomPadding()
         }
+        viewBinding.homeRatesList.addNavigationBarBottomPadding()
 
         viewModel.ratesList
             .observeOn(schedulerProvider.main)
