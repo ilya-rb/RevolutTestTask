@@ -14,8 +14,6 @@ class TestConnectivityStatus : ConnectivityStatus {
         connectivitySubject.toFlowable(BackpressureStrategy.LATEST)
             .startWithItem(startWithOnSubscribe)
 
-    fun accept(state: ConnectivityStatus.State) = connectivitySubject.onNext(state)
-
     fun setStartWithOnSubscribe(state: ConnectivityStatus.State) {
         startWithOnSubscribe = state
     }
