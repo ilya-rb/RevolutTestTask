@@ -122,4 +122,5 @@ dependencies {
     androidTestImplementation(Deps.Test.AndroidX.uiAutomator)
 
     androidTestRuntimeOnly(Deps.Test.JUnit5.androidTestRunner)
+    androidTestRuntimeOnly(Deps.Test.JUnit5.junitVintageEngine)
 }
