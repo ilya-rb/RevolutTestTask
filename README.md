@@ -13,8 +13,9 @@ you’re using this IDE for development).
 
 ## Screenshots
 ![1](https://github.com/ilya-rb/RevolutTestTask/blob/main/art/1.jpeg)
+![2](https://github.com/ilya-rb/RevolutTestTask/blob/main/art/2.jpeg)
+![6](https://github.com/ilya-rb/RevolutTestTask/blob/main/art/6.jpeg)
 ![3](https://github.com/ilya-rb/RevolutTestTask/blob/main/art/3.jpeg)
 ![4](https://github.com/ilya-rb/RevolutTestTask/blob/main/art/4.jpeg)
 ![5](https://github.com/ilya-rb/RevolutTestTask/blob/main/art/5.jpeg)
-![6](https://github.com/ilya-rb/RevolutTestTask/blob/main/art/6.jpeg)
 ![7](https://github.com/ilya-rb/RevolutTestTask/blob/main/art/7.jpeg)
