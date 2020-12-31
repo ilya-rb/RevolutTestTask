@@ -13,3 +13,4 @@ reports
 keystore
 app/src/release/google-services.json
 keystore.properties
+app/release

@@ -37,6 +37,8 @@ you’re using this IDE for development).
 - Settings connectivity panel (from Android Q)
 - Edge to edge support
 
+## Release APK can be found [here](https://github.com/ilya-rb/RevolutTestTask/releases/download/v1.0/app-release.apk)
+
 ## Screenshots
 ![1](https://github.com/ilya-rb/RevolutTestTask/blob/main/art/1.jpeg)
 ![2](https://github.com/ilya-rb/RevolutTestTask/blob/main/art/2.jpeg)
