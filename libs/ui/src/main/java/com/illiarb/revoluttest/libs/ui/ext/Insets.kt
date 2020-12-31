@@ -1,6 +1,6 @@
 package com.illiarb.revoluttest.libs.ui.ext
 
-import android.os.Build
+import android.content.res.Configuration
 import android.view.View
 import android.view.WindowInsets
 import androidx.core.view.updatePadding
@@ -25,13 +25,27 @@ fun View.doOnApplyWindowInsets(f: (View, WindowInsets, Padding) -> Unit) {
 
 fun View.addStatusBarTopPadding() {
     doOnApplyWindowInsets { view, windowInsets, padding ->
-        view.updatePadding(top = padding.top + windowInsets.systemWindowInsetTop)
+        val isHorizontal =
+            view.context.resources.configuration.orientation== Configuration.ORIENTATION_LANDSCAPE
+
+        if (isHorizontal) {
+            view.updatePadding(left = padding.left + windowInsets.systemWindowInsetLeft)
+            view.updatePadding(top = padding.top + windowInsets.systemWindowInsetTop)
+        } else {
+            view.updatePadding(top = padding.top + windowInsets.systemWindowInsetTop)
+        }
     }
 }
 
 fun View.addNavigationBarBottomPadding() {
     doOnApplyWindowInsets { view, windowInsets, padding ->
-        view.updatePadding(bottom = padding.bottom + windowInsets.systemWindowInsetBottom)
+        val isHorizontal =
+            view.context.resources.configuration.orientation== Configuration.ORIENTATION_LANDSCAPE
+        if (isHorizontal) {
+            view.updatePadding(left = padding.left + windowInsets.systemWindowInsetLeft)
+        } else {
+            view.updatePadding(bottom = padding.bottom + windowInsets.systemWindowInsetBottom)
+        }
     }
 }
 

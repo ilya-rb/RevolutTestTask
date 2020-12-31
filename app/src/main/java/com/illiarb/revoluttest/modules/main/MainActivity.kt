@@ -18,13 +18,10 @@ import com.illiarb.revoluttest.libs.tools.SchedulerProvider
 import com.illiarb.revoluttest.libs.ui.base.BaseActivity
 import com.illiarb.revoluttest.libs.ui.ext.addTo
 import com.illiarb.revoluttest.libs.ui.ext.exhaustive
-import com.illiarb.revoluttest.libs.ui.ext.getColorAttr
 import com.illiarb.revoluttest.libs.ui.widget.SnackbarController
 import com.illiarb.revoluttest.modules.main.di.DaggerMainComponent
 import timber.log.Timber
 import javax.inject.Inject
-import com.google.android.material.R as MaterialR
-import com.illiarb.revoluttest.libs.ui.R as UiR
 
 class MainActivity : BaseActivity(), Injectable {
 
