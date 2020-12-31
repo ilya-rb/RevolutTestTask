@@ -158,6 +158,7 @@ object Deps {
         const val truth = "com.google.truth:truth:1.1"
         const val kaspresso = "com.kaspersky.android-components:kaspresso:1.2.0"
         const val kakao = "com.agoda.kakao:kakao:2.3.4"
+        const val mockk = "io.mockk:mockk:1.10.2"
 
         object JUnit5 {
             private const val jUnitVersion = "5.7.0"

@@ -24,6 +24,7 @@ import com.illiarb.revoluttest.libs.ui.widget.recyclerview.StatefulRecyclerView.
 import com.illiarb.revoluttest.libs.ui.widget.recyclerview.StatefulRecyclerView.State.EMPTY
 import com.illiarb.revoluttest.libs.ui.widget.recyclerview.StatefulRecyclerView.State.ERROR
 import com.illiarb.revoluttest.libs.util.Async
+import com.illiarb.revoluttest.modules.home.delegates.ItemRateDelegate
 import com.illiarb.revoluttest.modules.home.di.DaggerHomeComponent
 import timber.log.Timber
 import javax.inject.Inject
@@ -42,7 +43,11 @@ class HomeFragment : BaseFragment(R.layout.fragment_home), Injectable {
 
     private val delegatesAdapter by lazy(LazyThreadSafetyMode.NONE) {
         object : DelegatesAdapter<UiRate>(
-            ItemRateDelegate({ viewModel.onItemClick(it) }, viewModel.amountChangedConsumer),
+            ItemRateDelegate({
+                viewModel.onItemClick(
+                    it
+                )
+            }, viewModel.amountChangedConsumer),
             itemDiff = { old, new -> old.code == new.code },
             changePayload = { old, new -> RatesChangedPayload.create(old, new) }
         ) {
