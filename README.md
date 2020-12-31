@@ -31,6 +31,7 @@ you’re using this IDE for development).
 - Kaspresso for functional tests
 
 ## Additional things included
+
 - Dark theme support
 - Offline mode (caching and auto reconnecting when network available)
 - Settings connectivity panel (from Android Q)
