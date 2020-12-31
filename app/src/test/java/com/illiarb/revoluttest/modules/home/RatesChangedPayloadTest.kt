@@ -1,6 +1,7 @@
 package com.illiarb.revoluttest.modules.home
 
 import com.google.common.truth.Truth.assertThat
+import com.illiarb.revoluttest.modules.home.delegates.RatesChangedPayload
 import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
@@ -30,27 +31,42 @@ class RatesChangedPayloadTest {
                 Arguments.of(
                     createUiRate(imageUrl = "image1"),
                     createUiRate(imageUrl = "image2"),
-                    RatesChangedPayload(hasNewImage = true, hasNewRate = false)
+                    RatesChangedPayload(
+                        hasNewImage = true,
+                        hasNewRate = false
+                    )
                 ),
                 Arguments.of(
                     createUiRate(imageUrl = "image1"),
                     createUiRate(imageUrl = "image1"),
-                    RatesChangedPayload(hasNewImage = false, hasNewRate = false)
+                    RatesChangedPayload(
+                        hasNewImage = false,
+                        hasNewRate = false
+                    )
                 ),
                 Arguments.of(
                     createUiRate(rate = "rate1"),
                     createUiRate(rate = "rate2"),
-                    RatesChangedPayload(hasNewImage = false, hasNewRate = true)
+                    RatesChangedPayload(
+                        hasNewImage = false,
+                        hasNewRate = true
+                    )
                 ),
                 Arguments.of(
                     createUiRate(rate = "rate1"),
                     createUiRate(rate = "rate1"),
-                    RatesChangedPayload(hasNewImage = false, hasNewRate = false)
+                    RatesChangedPayload(
+                        hasNewImage = false,
+                        hasNewRate = false
+                    )
                 ),
                 Arguments.of(
                     createUiRate(imageUrl = "image1", rate = "rate1"),
                     createUiRate(imageUrl = "image2", rate = "rate2"),
-                    RatesChangedPayload(hasNewImage = true, hasNewRate = true)
+                    RatesChangedPayload(
+                        hasNewImage = true,
+                        hasNewRate = true
+                    )
                 )
             )
         }

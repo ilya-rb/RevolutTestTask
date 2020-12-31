@@ -2,6 +2,7 @@ package com.illiarb.revoluttest.modules.home
 
 import com.illiarb.revoluttest.modules.home.delegates.ItemRateController
 import com.illiarb.revoluttest.modules.home.delegates.ItemRateDelegate.ItemRateControls
+import com.illiarb.revoluttest.modules.home.delegates.RatesChangedPayload
 import com.jakewharton.rxrelay3.PublishRelay
 import io.mockk.every
 import io.mockk.mockk
@@ -29,7 +30,9 @@ class ItemRateControllerTest {
 
         itemRateController.bind(
             uiRate,
-            payload = RatesChangedPayload(hasNewImage = false)
+            payload = RatesChangedPayload(
+                hasNewImage = false
+            )
         )
 
         verify(exactly = 0) {
@@ -45,7 +48,9 @@ class ItemRateControllerTest {
 
         itemRateController.bind(
             uiRate,
-            payload = RatesChangedPayload(hasNewRate = true)
+            payload = RatesChangedPayload(
+                hasNewRate = true
+            )
         )
 
         verify(exactly = 0) {

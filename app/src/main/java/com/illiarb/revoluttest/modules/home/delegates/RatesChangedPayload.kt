@@ -1,4 +1,6 @@
-package com.illiarb.revoluttest.modules.home
+package com.illiarb.revoluttest.modules.home.delegates
+
+import com.illiarb.revoluttest.modules.home.UiRate
 
 data class RatesChangedPayload(
     val hasNewImage: Boolean = true,

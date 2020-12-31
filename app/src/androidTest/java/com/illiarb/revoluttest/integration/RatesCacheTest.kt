@@ -1,6 +1,7 @@
 package com.illiarb.revoluttest.integration
 
 import androidx.test.platform.app.InstrumentationRegistry
+import com.illiarb.revoluttest.libs.util.Optional
 import com.illiarb.revoluttest.services.revolut.RatesService.LatestRates
 import com.illiarb.revoluttest.services.revolut.entity.Rate
 import com.illiarb.revoluttest.services.revolut.internal.cache.BinaryPrefsRatesCache
@@ -48,7 +49,7 @@ class RatesCacheTest {
 
         ratesObservable
             .assertNoErrors()
-            .assertValue { it == latestRates }
+            .assertValue { it.unwrap() == latestRates }
     }
 
     @Test
@@ -61,7 +62,7 @@ class RatesCacheTest {
 
         ratesObservable
             .assertNoErrors()
-            .assertValue { it.rates.isEmpty() }
+            .assertValue { it is Optional.None }
     }
 
     @Test

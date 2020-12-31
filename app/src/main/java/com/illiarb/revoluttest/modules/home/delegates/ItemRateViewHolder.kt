@@ -3,7 +3,6 @@ package com.illiarb.revoluttest.modules.home.delegates
 import androidx.recyclerview.widget.RecyclerView
 import com.illiarb.revoluttest.databinding.ItemRateBinding
 import com.illiarb.revoluttest.libs.ui.image.ImageLoader
-import com.illiarb.revoluttest.modules.home.RatesChangedPayload
 import com.illiarb.revoluttest.modules.home.UiRate
 import com.jakewharton.rxbinding4.widget.textChanges
 import io.reactivex.rxjava3.core.Observable

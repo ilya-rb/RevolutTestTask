@@ -1,7 +1,6 @@
 package com.illiarb.revoluttest.modules.home.delegates
 
 import com.illiarb.revoluttest.libs.ui.ext.addTo
-import com.illiarb.revoluttest.modules.home.RatesChangedPayload
 import com.illiarb.revoluttest.modules.home.UiRate
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.functions.Consumer

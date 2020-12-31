@@ -5,7 +5,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.hannesdorfmann.adapterdelegates4.AdapterDelegate
 import com.illiarb.revoluttest.databinding.ItemRateBinding
-import com.illiarb.revoluttest.modules.home.RatesChangedPayload
 import com.illiarb.revoluttest.modules.home.UiRate
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.functions.Consumer
