@@ -43,11 +43,7 @@ class HomeFragment : BaseFragment(R.layout.fragment_home), Injectable {
 
     private val delegatesAdapter by lazy(LazyThreadSafetyMode.NONE) {
         object : DelegatesAdapter<UiRate>(
-            ItemRateDelegate({
-                viewModel.onItemClick(
-                    it
-                )
-            }, viewModel.amountChangedConsumer),
+            ItemRateDelegate({ viewModel.onItemClick(it) }, viewModel.amountChangedConsumer),
             itemDiff = { old, new -> old.code == new.code },
             changePayload = { old, new -> RatesChangedPayload.create(old, new) }
         ) {
@@ -71,28 +67,12 @@ class HomeFragment : BaseFragment(R.layout.fragment_home), Injectable {
             it.layoutManager = LinearLayoutManager(view.context)
             it.adapter = delegatesAdapter.also { adapter -> adapter.setHasStableIds(true) }
             it.setHasFixedSize(true)
+            it.addNavigationBarBottomPadding()
         }
-        viewBinding.homeRatesList.addNavigationBarBottomPadding()
 
         viewModel.ratesList
             .observeOn(schedulerProvider.main)
-            .subscribe(
-                {
-                    when (it) {
-                        is Async.Uninitialized, is Async.Loading, is Async.Fail ->
-                            if (it is Async.Fail) {
-                                viewBinding.homeRatesList.moveToState(ERROR)
-                            } else {
-                                viewBinding.homeRatesList.moveToState(EMPTY)
-                            }
-                        is Async.Success -> {
-                            delegatesAdapter.submitList(it())
-                            viewBinding.homeRatesList.moveToState(CONTENT)
-                        }
-                    }.exhaustive
-                },
-                { Timber.e(it) }
-            )
+            .subscribe(this::onRatesStateChanged) { Timber.e(it) }
             .addTo(onDestroyViewDisposable)
 
         viewModel.emptyViewText
@@ -107,6 +87,21 @@ class HomeFragment : BaseFragment(R.layout.fragment_home), Injectable {
             .addTo(onDestroyViewDisposable)
 
         ViewCompat.requestApplyInsets(view)
+    }
+
+    private fun onRatesStateChanged(state: Async<List<UiRate>>) {
+        when (state) {
+            is Async.Uninitialized, is Async.Loading, is Async.Fail ->
+                if (state is Async.Fail) {
+                    viewBinding.homeRatesList.moveToState(ERROR)
+                } else {
+                    viewBinding.homeRatesList.moveToState(EMPTY)
+                }
+            is Async.Success -> {
+                delegatesAdapter.submitList(state())
+                viewBinding.homeRatesList.moveToState(CONTENT)
+            }
+        }.exhaustive
     }
 
     private fun showErrorMessage(message: String?) {

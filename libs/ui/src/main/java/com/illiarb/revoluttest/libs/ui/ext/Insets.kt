@@ -25,23 +25,13 @@ fun View.doOnApplyWindowInsets(f: (View, WindowInsets, Padding) -> Unit) {
 
 fun View.addStatusBarTopPadding() {
     doOnApplyWindowInsets { view, windowInsets, padding ->
-        val statusBarTopInset = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            windowInsets.getInsets(WindowInsets.Type.statusBars()).top
-        } else {
-            windowInsets.systemWindowInsetTop
-        }
-        view.updatePadding(top = padding.top + statusBarTopInset)
+        view.updatePadding(top = padding.top + windowInsets.systemWindowInsetTop)
     }
 }
 
 fun View.addNavigationBarBottomPadding() {
     doOnApplyWindowInsets { view, windowInsets, padding ->
-        val statusBarBottomInset = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            windowInsets.getInsets(WindowInsets.Type.statusBars()).bottom
-        } else {
-            windowInsets.systemWindowInsetBottom
-        }
-        view.updatePadding(bottom = padding.bottom + statusBarBottomInset)
+        view.updatePadding(bottom = padding.bottom + windowInsets.systemWindowInsetBottom)
     }
 }
 
