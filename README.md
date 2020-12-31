@@ -11,6 +11,25 @@ Use any libraries and languages(java/kotlin) you want. Please, note that the sol
 should be ​production ready. ​(Please use the public stable version of Android studio, if
 you’re using this IDE for development).
 
+## Tech stack
+
+- Kotlin
+- RxJava3
+- Dagger
+- AndroidX libraries (Material, ViewModel, RecyclerView, etc..)
+- Glide
+- Retrofit (Moshi for deserialization)
+- [Adapter delegates](https://github.com/sockeqwe/AdapterDelegates) for RecyclerView 
+- [Binary preferences](https://github.com/yandextaxitech/binaryprefs) as a file cache
+- LeakCanary and Flipper for debugging
+- JUnit5 for unit and integration tests
+- Jacoco for tests coverage
+- Detekt for static analysis
+- CircleCI as a CI server
+- Firebase crashlytics
+- Timber for logging
+- Kaspresso for functional tests
+
 ## Screenshots
 ![1](https://github.com/ilya-rb/RevolutTestTask/blob/main/art/1.jpeg)
 ![2](https://github.com/ilya-rb/RevolutTestTask/blob/main/art/2.jpeg)
