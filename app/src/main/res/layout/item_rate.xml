@@ -11,14 +11,13 @@
 
     <ImageView
         android:id="@+id/item_rate_image"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="@dimen/item_rate_image_size"
+        android:layout_height="@dimen/item_rate_image_size"
         android:layout_marginStart="@dimen/spacing_normal"
+        android:contentDescription="@string/acs_item_rate_image_description"
         app:layout_constraintBottom_toBottomOf="@id/item_rate_caption"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="@id/item_rate_body"
-        tools:layout_height="24dp"
-        tools:layout_width="24dp"
         tools:src="@mipmap/ic_launcher_round" />
 
     <TextView
@@ -55,8 +54,11 @@
         android:layout_marginStart="@dimen/spacing_normal"
         android:layout_marginEnd="@dimen/spacing_normal"
         android:autofillHints="@null"
+        android:hint="@string/item_rate_amount_hint"
+        android:imeOptions="flagNoExtractUi|actionDone"
         android:inputType="numberDecimal"
-        android:minWidth="24dp"
+        android:labelFor="@id/item_rate_body"
+        android:minWidth="@dimen/item_rate_amount_min_width"
         android:textAppearance="?attr/textAppearanceHeadline6"
         app:layout_constraintBottom_toBottomOf="@id/item_rate_caption"
         app:layout_constraintEnd_toEndOf="parent"

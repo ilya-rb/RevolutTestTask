@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="acs_label_close_app">Close app</string>
+    <string name="acs_item_rate_image_description">Country flag</string>
+
+</resources>

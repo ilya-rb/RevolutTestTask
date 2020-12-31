@@ -59,6 +59,8 @@ class ItemRateDelegate(
 
         fun requestRateValueFocus(): Boolean
 
+        fun hideKeyboard()
+
         fun isRateValueFocused(): Boolean
 
         fun setCaptionText(caption: String)
@@ -70,5 +72,7 @@ class ItemRateDelegate(
         fun setOnItemClickListener(listener: (() -> Unit)?)
 
         fun setFocusChangeListener(listener: ((Boolean) -> Unit)?)
+
+        fun setOnEditorActionDoneListener(onActionDone: () -> Unit)
     }
 }

@@ -1,7 +1,9 @@
 package com.illiarb.revoluttest.modules.home.delegates
 
+import android.view.inputmethod.EditorInfo
 import androidx.recyclerview.widget.RecyclerView
 import com.illiarb.revoluttest.databinding.ItemRateBinding
+import com.illiarb.revoluttest.libs.ui.ext.hideKeyboard
 import com.illiarb.revoluttest.libs.ui.image.ImageLoader
 import com.illiarb.revoluttest.modules.home.UiRate
 import com.jakewharton.rxbinding4.widget.textChanges
@@ -36,6 +38,7 @@ class ItemRateViewHolder(
     override fun loadImage(url: String) = ImageLoader.loadImage(binding.itemRateImage, url)
     override fun requestRateValueFocus() = binding.itemRateValue.requestFocus()
     override fun isRateValueFocused(): Boolean = binding.itemRateValue.isFocused
+    override fun hideKeyboard() = binding.itemRateValue.hideKeyboard()
 
     override fun setRateValueText(text: String) {
         binding.itemRateValue.setText(text)
@@ -65,6 +68,17 @@ class ItemRateViewHolder(
         } else {
             binding.itemRateContainer.setOnClickListener {
                 listener()
+            }
+        }
+    }
+
+    override fun setOnEditorActionDoneListener(onActionDone: () -> Unit) {
+        binding.itemRateValue.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                onActionDone()
+                true
+            } else {
+                false
             }
         }
     }

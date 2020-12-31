@@ -17,6 +17,7 @@
             android:id="@+id/home_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
+            app:navigationContentDescription="@string/acs_label_close_app"
             app:navigationIcon="@drawable/ic_close"
             app:title="@string/home_toolbar_title" />
 

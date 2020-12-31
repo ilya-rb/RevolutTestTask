@@ -26,6 +26,9 @@ class ItemRateController(
 
         itemRateControls.setCaptionText(item.caption)
         itemRateControls.setBody(item.code)
+        itemRateControls.setOnEditorActionDoneListener {
+            itemRateControls.hideKeyboard()
+        }
 
         if (item.isBaseRate) {
             itemRateControls.setOnItemClickListener(null)
