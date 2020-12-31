@@ -1,4 +1,5 @@
 # Revolut test task
+Release APK can be found [here](https://github.com/ilya-rb/RevolutTestTask/releases/download/v1.0/app-release.apk)
 
 [![CircleCI](https://circleci.com/gh/ilya-rb/RevolutTestTask/tree/main.svg?style=svg)](https://circleci.com/gh/ilya-rb/RevolutTestTask/tree/main)
 [![codecov](https://codecov.io/gh/ilya-rb/RevolutTestTask/branch/main/graph/badge.svg?token=TT37OD91DA)](https://codecov.io/gh/ilya-rb/RevolutTestTask)
@@ -36,8 +37,6 @@ you’re using this IDE for development).
 - Offline mode (caching and auto reconnecting when network available)
 - Settings connectivity panel (from Android Q)
 - Edge to edge support
-
-## Release APK can be found [here](https://github.com/ilya-rb/RevolutTestTask/releases/download/v1.0/app-release.apk)
 
 ## Screenshots
 ![1](https://github.com/ilya-rb/RevolutTestTask/blob/main/art/1.jpeg)
