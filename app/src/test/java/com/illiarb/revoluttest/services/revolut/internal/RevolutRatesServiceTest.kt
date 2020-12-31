@@ -3,7 +3,11 @@ package com.illiarb.revoluttest.services.revolut.internal
 import com.illiarb.revoluttest.common.TestConnectivityStatus
 import com.illiarb.revoluttest.common.TestLatestRatesApi
 import com.illiarb.revoluttest.common.TestRatesCache
+import com.illiarb.revoluttest.common.TestResourceResolver
 import com.illiarb.revoluttest.common.TestSchedulerProvider
+import com.illiarb.revoluttest.libs.tools.ConnectivityStatus
+import com.illiarb.revoluttest.libs.util.Result
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 
@@ -11,13 +15,21 @@ import org.junit.jupiter.api.TestInstance
 class RevolutRatesServiceTest {
 
     private val testSchedulerProvider = TestSchedulerProvider()
+    private val testConnectivityStatus = TestConnectivityStatus()
+
     private val revolutRatesService = RevolutRatesService(
         TestLatestRatesApi(),
         ImageUrlCreator(),
         testSchedulerProvider,
         TestRatesCache(),
-        TestConnectivityStatus()
+        testConnectivityStatus,
+        TestResourceResolver()
     )
+
+    @BeforeEach
+    fun beforeEach() {
+        testConnectivityStatus.setStartWithOnSubscribe(ConnectivityStatus.State.CONNECTED)
+    }
 
     @Test
     fun `given null as base currency it should return default currency as EUR`() {
@@ -26,7 +38,8 @@ class RevolutRatesServiceTest {
         repeat(times = 10) { i ->
             testSchedulerProvider.advanceToNextRateUpdate()
             observer.assertValueAt(i) {
-                it.baseRate.code == TestLatestRatesApi.TEST_BASE_CURRENCY
+                it is Result.Ok
+                it.unwrap().baseRate.code == TestLatestRatesApi.TEST_BASE_CURRENCY
             }
         }
     }

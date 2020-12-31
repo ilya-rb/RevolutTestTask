@@ -1,6 +1,5 @@
 package com.illiarb.revoluttest.services.revolut.internal
 
-import com.illiarb.revoluttest.R
 import com.illiarb.revoluttest.libs.tools.ConnectivityStatus
 import com.illiarb.revoluttest.libs.tools.ConnectivityStatus.State
 import com.illiarb.revoluttest.libs.tools.ResourceResolver
@@ -48,12 +47,8 @@ internal class RevolutRatesService @Inject constructor(
                         .map {
                             when (it) {
                                 is Optional.Some -> Result.Ok(it.element)
-                                is Optional.None -> Result.Err(
-                                    ApiError(
-                                        message = resourceResolver.getString(R.string.error_io),
-                                        kind = ApiError.Kind.HTTP
-                                    )
-                                )
+                                is Optional.None ->
+                                    Result.Err(ApiError.networkError(resourceResolver))
                             }.exhaustive
                         }
                         .subscribeOn(schedulerProvider.io)

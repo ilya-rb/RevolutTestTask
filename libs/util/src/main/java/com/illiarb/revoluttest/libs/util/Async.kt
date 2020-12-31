@@ -23,5 +23,5 @@ sealed class Async<out T> {
      */
     open operator fun invoke(): T? = null
 
-    fun data(): T = (this as Success).data()
+    fun data(): T = (this as Success)()
 }

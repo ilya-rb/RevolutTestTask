@@ -1,6 +1,7 @@
 package com.illiarb.revoluttest.modules.home
 
 import com.illiarb.revoluttest.R
+import com.illiarb.revoluttest.libs.tools.SchedulerProvider
 import com.illiarb.revoluttest.libs.ui.base.BaseViewModel
 import com.illiarb.revoluttest.libs.ui.common.Text
 import com.illiarb.revoluttest.libs.ui.ext.addTo
@@ -25,7 +26,8 @@ import javax.inject.Inject
 
 class HomeViewModel @Inject constructor(
     private val ratesService: RatesService,
-    private val uiRateMapper: UiRateMapper
+    private val uiRateMapper: UiRateMapper,
+    private val schedulerProvider: SchedulerProvider
 ) : BaseViewModel() {
 
     private val latestRatesDisposable = CompositeDisposable()
@@ -73,7 +75,7 @@ class HomeViewModel @Inject constructor(
         latestRatesDisposable.clear()
 
         ratesService.observeLatestRates(baseCurrency)
-            .delaySubscription(subscriptionDelay, TimeUnit.SECONDS)
+            .delaySubscription(subscriptionDelay, TimeUnit.SECONDS, schedulerProvider.computation)
             .subscribe(
                 {
                     when (it) {

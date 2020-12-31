@@ -17,4 +17,8 @@ class TestSchedulerProvider : SchedulerProvider {
     fun advanceToNextRateUpdate() {
         testScheduler.advanceTimeBy(1L, TimeUnit.SECONDS)
     }
+
+    fun advanceTimeBy(seconds: Long) {
+        testScheduler.advanceTimeBy(seconds, TimeUnit.SECONDS)
+    }
 }
