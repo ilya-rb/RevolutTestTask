@@ -29,7 +29,7 @@ you’re using this IDE for development).
 - CircleCI as a CI server
 - Firebase crashlytics
 - Timber for logging
-- Kaspresso for functional tests
+- a small bunch of functional tests with Kaspresso
 
 ## Additional things included
 
