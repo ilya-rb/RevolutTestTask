@@ -5,6 +5,7 @@ import com.illiarb.revoluttest.modules.home.delegates.ItemRateDelegate.ItemRateC
 import com.illiarb.revoluttest.modules.home.delegates.RatesChangedPayload
 import com.jakewharton.rxrelay3.PublishRelay
 import io.mockk.every
+import io.mockk.invoke
 import io.mockk.mockk
 import io.mockk.verify
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -66,6 +67,17 @@ class ItemRateControllerTest {
 
         verify(exactly = 1) { itemRateControls.setOnItemClickListener(null) }
         verify(exactly = 1) { itemRateControls.setFocusChangeListener(null) }
+    }
+
+    @Test
+    fun `given ui base rate it should request amount focus`() {
+        val uiRate = createDefaultUiRate(isBase = true)
+
+        itemRateController.bind(uiRate, payload = null)
+
+        verify(exactly = 1) {
+            itemRateControls.requestRateValueFocus()
+        }
     }
 
     private fun createDefaultUiRate(isBase: Boolean = false) = UiRate(

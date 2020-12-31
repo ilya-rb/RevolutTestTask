@@ -17,4 +17,8 @@ class TestConnectivityStatus : ConnectivityStatus {
     fun setStartWithOnSubscribe(state: ConnectivityStatus.State) {
         startWithOnSubscribe = state
     }
+
+    fun accept(state: ConnectivityStatus.State) {
+        connectivitySubject.onNext(state)
+    }
 }
