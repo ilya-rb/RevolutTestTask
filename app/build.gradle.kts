@@ -5,6 +5,7 @@ plugins {
     id("com.android.application")
     id("de.mannodermaus.android-junit5")
     id("com.google.firebase.crashlytics")
+    id("com.google.gms.google-services")
     kotlin("android")
     kotlin("kapt")
 }
@@ -17,6 +18,22 @@ android {
     buildFeatures {
         buildConfig = true
         viewBinding = true
+    }
+
+    signingConfigs {
+        val propsFile = rootProject.file("keystore.properties")
+        if (propsFile.exists()) {
+            val props = Properties().also { it.load(FileInputStream(propsFile)) }
+
+            create("release") {
+                storeFile = file(props.getProperty("storeFile"))
+                storePassword = props.getProperty("storePassword")
+                keyAlias = props.getProperty("keyAlias")
+                keyPassword = props.getProperty("keyPassword")
+            }
+        } else {
+            create("release").initWith(getByName("debug"))
+        }
     }
 
     buildTypes {
@@ -34,9 +51,14 @@ android {
 
         buildTypes {
             getByName("release") {
+                isDebuggable = false
                 isMinifyEnabled = true
                 isShrinkResources = true
-                proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
+                signingConfig = signingConfigs.getByName("release")
+                proguardFiles(
+                    getDefaultProguardFile("proguard-android.txt"),
+                    "proguard-rules.pro"
+                )
             }
         }
     }

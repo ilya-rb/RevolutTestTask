@@ -169,7 +169,6 @@ object Deps {
             const val jupiterParams = "org.junit.jupiter:junit-jupiter-params:$jUnitVersion"
             const val junitVintageEngine = "org.junit.vintage:junit-vintage-engine:$jUnitVersion"
 
-            // TODO: Use when it upgrades to AndroidX
             const val androidTestCore =
                 "de.mannodermaus.junit5:android-test-core:$androidTestVersion"
             const val androidTestRunner =

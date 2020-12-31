@@ -10,3 +10,6 @@
 .cxx
 local.properties
 reports
+keystore
+app/src/release/google-services.json
+keystore.properties

@@ -145,6 +145,38 @@ fun Project.configureAndroid() {
                 )
             }
 
+            sourceSets {
+                getByName("debug") {
+                    java.setSrcDirs(
+                        listOf(
+                            "src/debug/java",
+                            "$buildDir/generated/source/kaptKotlin/debug",
+                            "$buildDir/generated/source/kapt/debug"
+                        )
+                    )
+                }
+
+                getByName("main") {
+                    java.setSrcDirs(
+                        listOf(
+                            "src/main/java",
+                            "$buildDir/generated/source/kaptKotlin/main",
+                            "$buildDir/generated/source/kapt/main"
+                        )
+                    )
+                }
+
+                getByName("release") {
+                    java.setSrcDirs(
+                        listOf(
+                            "src/release/java",
+                            "$buildDir/generated/source/kaptKotlin/release",
+                            "$buildDir/generated/source/kapt/release"
+                        )
+                    )
+                }
+            }
+
             compileOptions {
                 sourceCompatibility = JavaVersion.VERSION_1_8
                 targetCompatibility = JavaVersion.VERSION_1_8
