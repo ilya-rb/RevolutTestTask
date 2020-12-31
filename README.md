@@ -30,6 +30,12 @@ you’re using this IDE for development).
 - Timber for logging
 - Kaspresso for functional tests
 
+## Additional things included
+- Dark theme support
+- Offline mode (caching and auto reconnecting when network available)
+- Settings connectivity panel (from Android Q)
+- Edge to edge support
+
 ## Screenshots
 ![1](https://github.com/ilya-rb/RevolutTestTask/blob/main/art/1.jpeg)
 ![2](https://github.com/ilya-rb/RevolutTestTask/blob/main/art/2.jpeg)
