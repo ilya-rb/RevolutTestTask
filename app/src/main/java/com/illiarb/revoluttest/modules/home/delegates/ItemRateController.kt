@@ -30,6 +30,7 @@ class ItemRateController(
         if (item.isBaseRate) {
             itemRateControls.setOnItemClickListener(null)
             itemRateControls.setFocusChangeListener(null)
+            itemRateControls.requestRateValueFocus()
 
             itemRateControls.textChanges
                 .map { it?.toString()?.toFloatOrNull() ?: 0f }
