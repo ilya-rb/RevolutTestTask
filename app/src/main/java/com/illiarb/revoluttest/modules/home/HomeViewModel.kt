@@ -43,10 +43,16 @@ class HomeViewModel @Inject constructor(
 
     val emptyViewText: Observable<Text>
         get() = ratesList.map<Text> {
-            if (it is Async.Fail) {
-                Text.ResourceIdText(R.string.home_empty_view_error)
-            } else {
-                Text.ResourceIdText(R.string.home_empty_view_loading)
+            when (it) {
+                is Async.Fail -> Text.ResourceIdText(R.string.home_empty_view_error)
+                is Async.Success -> {
+                    if (it().isEmpty()) {
+                        Text.ResourceIdText(R.string.home_empty_view_no_content)
+                    } else {
+                        Text.ResourceIdText(R.string.home_empty_view_loading)
+                    }
+                }
+                else -> Text.ResourceIdText(R.string.home_empty_view_loading)
             }
         }
 

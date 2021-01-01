@@ -2,6 +2,7 @@
 <resources>
     <string name="home_toolbar_title">Converter</string>
     <string name="home_empty_view_loading">Loading the rates…</string>
+    <string name="home_empty_view_no_content">There is no available currencies for now</string>
     <string name="home_empty_view_error">Oops, error loading the rates</string>
     <string name="item_rate_amount_hint">0.00</string>
 

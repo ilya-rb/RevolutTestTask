@@ -99,8 +99,14 @@ class HomeFragment : BaseFragment(R.layout.fragment_home), Injectable {
                     viewBinding.homeRatesList.moveToState(EMPTY)
                 }
             is Async.Success -> {
-                delegatesAdapter.submitList(state())
-                viewBinding.homeRatesList.moveToState(CONTENT)
+                val items = state()
+                delegatesAdapter.submitList(items)
+
+                if (items.isEmpty()) {
+                    viewBinding.homeRatesList.moveToState(EMPTY)
+                } else {
+                    viewBinding.homeRatesList.moveToState(CONTENT)
+                }
             }
         }.exhaustive
     }
