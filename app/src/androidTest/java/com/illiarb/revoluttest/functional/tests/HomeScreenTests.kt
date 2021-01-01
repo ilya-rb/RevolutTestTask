@@ -4,6 +4,8 @@ import android.Manifest
 import androidx.test.ext.junit.rules.activityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.rule.GrantPermissionRule
+import com.illiarb.revoluttest.R
+import com.illiarb.revoluttest.functional.matchers.ElevationMatcher
 import com.illiarb.revoluttest.functional.recyclerview.UiRateItem
 import com.illiarb.revoluttest.functional.screens.HomeScreen
 import com.illiarb.revoluttest.modules.main.MainActivity
@@ -31,9 +33,22 @@ class HomeScreenTests : TestCase(Kaspresso.Builder.simple()) {
         activityTestRule.scenario.close()
     }
 
+    /** When app is started loading state should be presented */
     @Test
-    // When app is launched it should show home screen with recycler view visible
-    // and progress view gone
+    fun testLoadingIsDisplayed() = run {
+        before { }.after { }.run {
+            step("Check loading animation view is displayed and recycler view is gone") {
+                HomeScreen {
+                    loadingAnimationView.isVisible()
+                    recyclerView.isGone()
+                }
+            }
+        }
+    }
+
+    /** When app is launched it should show home screen with recycler view visible */
+    /** and progress view gone */
+    @Test
     fun testHomeScreenInitialState() = run {
         before { }.after { }.run {
             step("Check recycler view is visible and animation progress view is gone") {
@@ -45,11 +60,11 @@ class HomeScreenTests : TestCase(Kaspresso.Builder.simple()) {
         }
     }
 
+    /** When entering new amount in base rate value other rate are updated accordingly */
     @Test
-    // When entering new amount in base rate value other rate are updated accordingly
     fun testRatesAreChangingOnTyping() = run {
         before { }.after { }.run {
-            step("Check recycler view is visible and animation progress view is gone") {
+            step("Check recycler view is visible") {
                 HomeScreen {
                     recyclerView.isVisible()
                 }
@@ -72,6 +87,67 @@ class HomeScreenTests : TestCase(Kaspresso.Builder.simple()) {
                         rateValueEditText(atPosition = it.ordinal) {
                             it.containsText("0.00")
                         }
+                    }
+                }
+            }
+        }
+    }
+
+    /** When clicking on the item selected currency should go to top and become active */
+    @Test
+    fun testSelectedCurrencyGoesToTop() = run {
+        val itemToSelectCode = "AUD"
+
+        before { }.after { }.run {
+            step("Click on item") {
+                HomeScreen {
+                    recyclerView.childWith<UiRateItem> {
+                        withDescendant {
+                            withId(R.id.item_rate_body)
+                            withText(itemToSelectCode)
+                        }
+                    }.click()
+                }
+            }
+
+            step("Check that clicked item at the top") {
+                HomeScreen {
+                    recyclerView.firstChild<UiRateItem> {
+                        rateCodeWithText(itemToSelectCode) {
+                            it.isCompletelyDisplayed()
+                        }
+
+                        rateValueEditText(atPosition = 0) {
+                            it.isFocused()
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    /** When recycler view is scrolled down toolbar has elevation */
+    @Test
+    fun testToolbarHasElevationOnScroll() = run {
+        before { }.after { }.run {
+            step("Check toolbar has zero elevation") {
+                HomeScreen {
+                    appBar.matches {
+                        withMatcher(ElevationMatcher(predicate = { elevation -> elevation == 0f }))
+                    }
+                }
+            }
+
+            step("Scroll recycler view to an end") {
+                HomeScreen {
+                    recyclerView.swipeUp()
+                }
+            }
+
+            step("Check toolbar has elevation") {
+                HomeScreen {
+                    appBar.matches {
+                        withMatcher(ElevationMatcher(predicate = { elevation -> elevation != 0f }))
                     }
                 }
             }
